@@ -36,6 +36,8 @@ export const Route = createFileRoute("/")({
 const CALENDLY_URL = "https://calendly.com/ainhoalfsmile/30min";
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
 const STORAGE_KEY = "vesta-photos-v1";
+const INFO_KEY = "vesta-info-v1";
+const EXTRA_KEY = "vesta-extra-cards-v1";
 
 type CardDef = {
   id: string;
@@ -45,6 +47,25 @@ type CardDef = {
   link: string;
   photo: string;
 };
+
+type CardInfo = {
+  calle?: string;
+  piso?: string;
+  zona?: string;
+  provincia?: string;
+  precio?: string;
+  notas?: string;
+};
+
+const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
+  { key: "calle", label: "Calle" },
+  { key: "piso", label: "Piso / puerta" },
+  { key: "zona", label: "Zona / barrio" },
+  { key: "provincia", label: "Provincia" },
+  { key: "precio", label: "Precio" },
+  { key: "notas", label: "Notas" },
+];
+
 
 const CARDS: CardDef[] = [
   {
@@ -166,6 +187,8 @@ function CalendlyButton({
 
 function Index() {
   const [overrides, setOverrides] = useState<Record<string, string | null>>({});
+  const [infos, setInfos] = useState<Record<string, CardInfo>>({});
+  const [extraCards, setExtraCards] = useState<CardDef[]>([]);
   const [managing, setManaging] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -175,10 +198,22 @@ function Index() {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) setOverrides(JSON.parse(raw));
+      const rawInfo = window.localStorage.getItem(INFO_KEY);
+      if (rawInfo) setInfos(JSON.parse(rawInfo));
+      const rawExtra = window.localStorage.getItem(EXTRA_KEY);
+      if (rawExtra) setExtraCards(JSON.parse(rawExtra));
     } catch {
       /* ignore */
     }
   }, []);
+
+  const save = (key: string, value: unknown) => {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+    } catch {
+      window.alert("No se pudo guardar: el navegador se ha quedado sin espacio.");
+    }
+  };
 
   const persist = useCallback((next: Record<string, string | null>) => {
     setOverrides(next);
@@ -188,6 +223,41 @@ function Index() {
       window.alert("No se pudo guardar la foto: el navegador se ha quedado sin espacio.");
     }
   }, []);
+
+  const setField = (id: string, key: keyof CardInfo, value: string) => {
+    const next = { ...infos, [id]: { ...(infos[id] ?? {}), [key]: value } };
+    setInfos(next);
+    save(INFO_KEY, next);
+  };
+
+  const clearInfo = (id: string) => {
+    const next = { ...infos };
+    delete next[id];
+    setInfos(next);
+    save(INFO_KEY, next);
+  };
+
+  const addCard = () => {
+    const card: CardDef = {
+      id: `x${Date.now()}`,
+      tag: "Nueva vivienda",
+      title: "Vivienda sin título",
+      text: "Añade la información de esta vivienda desde el modo de edición.",
+      link: "Ver anuncio",
+      photo: "",
+    };
+    const next = [...extraCards, card];
+    setExtraCards(next);
+    save(EXTRA_KEY, next);
+    setManaging(true);
+  };
+
+  const deleteCard = (id: string) => {
+    const next = extraCards.filter((c) => c.id !== id);
+    setExtraCards(next);
+    save(EXTRA_KEY, next);
+    clearInfo(id);
+  };
 
   const photoFor = (id: string, fallback: string) =>
     id in overrides ? overrides[id] : fallback;
@@ -201,7 +271,13 @@ function Index() {
 
   const removePhoto = (id: string) => persist({ ...overrides, [id]: null });
 
-  const restoreAll = () => persist({});
+  const restoreAll = () => {
+    persist({});
+    setInfos({});
+    save(INFO_KEY, {});
+    setExtraCards([]);
+    save(EXTRA_KEY, []);
+  };
 
   const scrollBy = (dir: number) => {
     trackRef.current?.scrollBy({ left: dir * 322, behavior: "smooth" });
@@ -230,7 +306,54 @@ function Index() {
     </div>
   );
 
+  const renderInfoView = (id: string) => {
+    const info = infos[id];
+    if (!info) return null;
+    const rows = INFO_FIELDS.filter((f) => (info[f.key] ?? "").trim() !== "");
+    if (rows.length === 0) return null;
+    return (
+      <ul className="p-card-info">
+        {rows.map((f) => (
+          <li key={f.key}>
+            <span>{f.label}</span>
+            <strong>{info[f.key]}</strong>
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const renderInfoForm = (id: string, removable: boolean) => (
+    <div className="p-card-form">
+      {INFO_FIELDS.map((f) => (
+        <label key={f.key}>
+          {f.label}
+          <input
+            type="text"
+            value={infos[id]?.[f.key] ?? ""}
+            placeholder={f.label}
+            maxLength={120}
+            onChange={(e) => setField(id, f.key, e.target.value)}
+          />
+        </label>
+      ))}
+      <div className="p-card-form-actions">
+        <button type="button" className="mini-btn danger" onClick={() => clearInfo(id)}>
+          Quitar información
+        </button>
+        {removable && (
+          <button type="button" className="mini-btn danger" onClick={() => deleteCard(id)}>
+            Eliminar vivienda
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
+  const allCards = [...CARDS, ...extraCards];
+
   const heroPhoto = photoFor("hero", HERO_DEFAULT);
+
 
   return (
     <>
