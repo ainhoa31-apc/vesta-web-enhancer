@@ -310,14 +310,3 @@ footer{background:var(--navy-deep);color:#C9D0BE;padding:64px 0 30px;}
 .p-card-form input{width:100%;margin-top:4px;padding:8px 10px;border:1px solid var(--line);background:#fff;font-family:'Jost',sans-serif;font-size:13px;color:var(--ink);border-radius:2px;}
 .p-card-form input:focus{outline:none;border-color:var(--navy);}
 .p-card-form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;}
-
-/* ---------- RESEÑAS GOOGLE ---------- */
-.google-reviews-box{margin-top:34px;border:1px solid rgba(247,243,233,0.22);background:rgba(247,243,233,0.06);padding:30px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:22px;}
-.google-reviews-box .lbl{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-pale);font-weight:500;display:block;margin-bottom:8px;}
-.google-reviews-text{font-size:14.5px;color:#C9D0BE;max-width:460px;}
-.google-reviews-actions{display:flex;gap:12px;flex-wrap:wrap;}
-.google-id-box{margin-top:16px;border:1px dashed rgba(247,243,233,0.22);padding:18px 22px;}
-.google-id-box label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-pale);font-weight:500;}
-.google-id-box input{width:100%;margin-top:8px;padding:10px 12px;border:1px solid rgba(247,243,233,0.25);background:rgba(255,255,255,0.05);color:#EDE9DC;font-family:'Jost',sans-serif;font-size:13.5px;border-radius:2px;}
-.google-id-box input:focus{outline:none;border-color:var(--gold);}
-.google-id-box .hint{display:block;margin-top:10px;font-size:12.2px;color:#9AA48C;}

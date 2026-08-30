@@ -191,15 +191,6 @@ function Index() {
   const [extraCards, setExtraCards] = useState<CardDef[]>([]);
   const [managing, setManaging] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [googlePlaceId, setGooglePlaceId] = useState("");
-  const googleSearchUrl =
-    "https://www.google.com/search?q=Vesta+inmobiliaria+rese%C3%B1as";
-  const googleReviewsUrl = googlePlaceId
-    ? `https://search.google.com/local/reviews?placeid=${encodeURIComponent(googlePlaceId)}`
-    : googleSearchUrl;
-  const googleWriteReviewUrl = googlePlaceId
-    ? `https://search.google.com/local/writereview?placeid=${encodeURIComponent(googlePlaceId)}`
-    : googleSearchUrl;
   const trackRef = useRef<HTMLDivElement>(null);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
 
@@ -211,8 +202,6 @@ function Index() {
       if (rawInfo) setInfos(JSON.parse(rawInfo));
       const rawExtra = window.localStorage.getItem(EXTRA_KEY);
       if (rawExtra) setExtraCards(JSON.parse(rawExtra));
-      const rawPlace = window.localStorage.getItem("vesta_google_place_id");
-      if (rawPlace) setGooglePlaceId(rawPlace);
     } catch {
       /* ignore */
     }
@@ -760,54 +749,6 @@ function Index() {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="google-reviews-box">
-            <div>
-              <span className="lbl">Reseñas verificadas en Google</span>
-              <p className="google-reviews-text">
-                Lee las opiniones reales de nuestros clientes en Google o deja la tuya iniciando
-                sesión con tu cuenta de Google.
-              </p>
-            </div>
-            <div className="google-reviews-actions">
-              <a
-                className="btn btn-ghost on-dark"
-                href={googleReviewsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Ver reseñas en Google
-              </a>
-              <a
-                className="btn btn-primary"
-                href={googleWriteReviewUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Escribir reseña con Google
-              </a>
-            </div>
-          </div>
-          <div className="google-id-box">
-            <label>
-              ID de ficha de Google (Place ID) — opcional
-              <input
-                value={googlePlaceId}
-                onChange={(e) => {
-                  setGooglePlaceId(e.target.value);
-                  try {
-                    window.localStorage.setItem("vesta_google_place_id", e.target.value);
-                  } catch {
-                    /* ignore */
-                  }
-                }}
-                placeholder="Ej: ChIJN1t_tDeuEmsRUsoyG83frY4"
-              />
-            </label>
-            <span className="hint">
-              Si lo dejas vacío, los botones abren la búsqueda de Vesta en Google. Con el Place ID
-              se abre tu ficha y el formulario oficial de reseñas de Google.
-            </span>
           </div>
           <p className="reviews-note">
             Estos recuadros son una plantilla de ejemplo: sustitúyelos por reseñas reales de tus
