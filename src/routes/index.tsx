@@ -211,6 +211,8 @@ function Index() {
       if (rawInfo) setInfos(JSON.parse(rawInfo));
       const rawExtra = window.localStorage.getItem(EXTRA_KEY);
       if (rawExtra) setExtraCards(JSON.parse(rawExtra));
+      const rawPlace = window.localStorage.getItem("vesta_google_place_id");
+      if (rawPlace) setGooglePlaceId(rawPlace);
     } catch {
       /* ignore */
     }
