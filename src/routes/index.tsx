@@ -191,6 +191,15 @@ function Index() {
   const [extraCards, setExtraCards] = useState<CardDef[]>([]);
   const [managing, setManaging] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [googlePlaceId, setGooglePlaceId] = useState("");
+  const googleSearchUrl =
+    "https://www.google.com/search?q=Vesta+inmobiliaria+rese%C3%B1as";
+  const googleReviewsUrl = googlePlaceId
+    ? `https://search.google.com/local/reviews?placeid=${encodeURIComponent(googlePlaceId)}`
+    : googleSearchUrl;
+  const googleWriteReviewUrl = googlePlaceId
+    ? `https://search.google.com/local/writereview?placeid=${encodeURIComponent(googlePlaceId)}`
+    : googleSearchUrl;
   const trackRef = useRef<HTMLDivElement>(null);
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
 
