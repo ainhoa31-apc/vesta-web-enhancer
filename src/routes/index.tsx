@@ -496,8 +496,8 @@ function Index() {
         <div className="carousel-viewport">
           <div className="carousel-track" ref={trackRef}>
             {allCards.map((card) => {
-
               const photo = photoFor(card.id, card.photo);
+              const isExtra = card.id.startsWith("x");
               return (
                 <div className="p-card" key={card.id}>
                   <div className="p-card-top">
@@ -512,10 +512,14 @@ function Index() {
                   <div className="p-card-body">
                     <h3>{card.title}</h3>
                     <p>{card.text}</p>
+                    {renderInfoView(card.id)}
+                    {managing && renderInfoForm(card.id, isExtra)}
                     <div className="p-card-link">
                       {card.link} <span>↗</span>
                     </div>
                   </div>
+                </div>
+
                 </div>
               );
             })}
