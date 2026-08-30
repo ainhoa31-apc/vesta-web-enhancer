@@ -475,22 +475,28 @@ function Index() {
               onClick={() => setManaging((v) => !v)}
               style={{ padding: "10px 20px" }}
             >
-              {managing ? "Terminar edición de fotos" : "Gestionar fotos de viviendas"}
+              {managing ? "Terminar edición" : "Gestionar viviendas (fotos e información)"}
             </button>
             {managing && (
-              <button type="button" className="mini-btn" onClick={restoreAll}>
-                Restaurar fotos originales
-              </button>
+              <>
+                <button type="button" className="mini-btn" onClick={addCard}>
+                  Añadir vivienda
+                </button>
+                <button type="button" className="mini-btn" onClick={restoreAll}>
+                  Restaurar todo
+                </button>
+              </>
             )}
             <span className="hint">
-              Puedes adjuntar o quitar la foto de cada vivienda cuando quieras; los cambios se
-              guardan en este navegador.
+              Puedes adjuntar o quitar la foto y editar la información (calle, piso, zona,
+              provincia, precio…) de cada vivienda; los cambios se guardan en este navegador.
             </span>
           </div>
         </div>
         <div className="carousel-viewport">
           <div className="carousel-track" ref={trackRef}>
-            {CARDS.map((card) => {
+            {allCards.map((card) => {
+
               const photo = photoFor(card.id, card.photo);
               return (
                 <div className="p-card" key={card.id}>
