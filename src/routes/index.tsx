@@ -793,7 +793,14 @@ function Index() {
               ID de ficha de Google (Place ID) — opcional
               <input
                 value={googlePlaceId}
-                onChange={(e) => setGooglePlaceId(e.target.value)}
+                onChange={(e) => {
+                  setGooglePlaceId(e.target.value);
+                  try {
+                    window.localStorage.setItem("vesta_google_place_id", e.target.value);
+                  } catch {
+                    /* ignore */
+                  }
+                }}
                 placeholder="Ej: ChIJN1t_tDeuEmsRUsoyG83frY4"
               />
             </label>
