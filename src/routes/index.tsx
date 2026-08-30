@@ -716,46 +716,8 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-navy" id="resenas">
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">Reseñas</span>
-            <h2>Lo que dicen las inmobiliarias que ya trabajan con nosotros</h2>
-          </div>
-          <div className="reviews-grid">
-            {[
-              [
-                "AA",
-                "Sustituye este texto por la reseña real de tu cliente. Dos o tres frases sobre el resultado obtenido son suficientes.",
-              ],
-              [
-                "BB",
-                "Este es un espacio de ejemplo. Añade aquí la valoración de una segunda inmobiliaria o propietario particular.",
-              ],
-              [
-                "CC",
-                "Tercer bloque de reseña disponible. Ideal para citar un dato concreto: tiempo de alquiler o número de contactos recibidos.",
-              ],
-            ].map(([initials, quote]) => (
-              <div className="review-card" key={initials}>
-                <div className="review-stars">★★★★★</div>
-                <p className="quote">{quote}</p>
-                <div className="review-who">
-                  <div className="review-avatar">{initials}</div>
-                  <div>
-                    <div className="name">Nombre del cliente</div>
-                    <div className="role">Inmobiliaria, ciudad</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="reviews-note">
-            Estos recuadros son una plantilla de ejemplo: sustitúyelos por reseñas reales de tus
-            clientes antes de publicar la página.
-          </p>
-        </div>
-      </section>
+      <ReviewsSection />
+
 
       <section id="agenda" style={{ paddingBottom: 110 }}>
         <div className="wrap">
