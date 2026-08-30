@@ -185,6 +185,240 @@ function CalendlyButton({
   );
 }
 
+const REVIEWS_KEY = "vesta-reviews-v1";
+const GOOGLE_LINK_KEY = "vesta-google-review-url-v1";
+const DEFAULT_GOOGLE_URL = "https://search.google.com/local/writereview?placeid=";
+
+type Review = {
+  id: string;
+  name: string;
+  role: string;
+  stars: number;
+  quote: string;
+  date: string;
+};
+
+function initialsOf(name: string) {
+  return (
+    name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((w) => w[0]?.toUpperCase() ?? "")
+      .join("") || "VS"
+  );
+}
+
+function ReviewsSection() {
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [googleUrl, setGoogleUrl] = useState(DEFAULT_GOOGLE_URL);
+  const [editingLink, setEditingLink] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState({ name: "", role: "", stars: 5, quote: "" });
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(REVIEWS_KEY);
+      if (raw) setReviews(JSON.parse(raw) as Review[]);
+      const link = localStorage.getItem(GOOGLE_LINK_KEY);
+      if (link) setGoogleUrl(link);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const persist = (next: Review[]) => {
+    setReviews(next);
+    try {
+      localStorage.setItem(REVIEWS_KEY, JSON.stringify(next));
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.quote.trim()) return;
+    const review: Review = {
+      id: `${Date.now()}`,
+      name: form.name.trim(),
+      role: form.role.trim(),
+      stars: form.stars,
+      quote: form.quote.trim(),
+      date: new Date().toLocaleDateString("es-ES"),
+    };
+    persist([review, ...reviews]);
+    setForm({ name: "", role: "", stars: 5, quote: "" });
+    setOpen(false);
+  };
+
+  const googleReady = googleUrl.trim().length > DEFAULT_GOOGLE_URL.length;
+
+  return (
+    <section className="bg-navy" id="resenas">
+      <div className="wrap">
+        <div className="section-head">
+          <span className="eyebrow">Reseñas</span>
+          <h2>Lo que dicen las inmobiliarias que ya trabajan con nosotros</h2>
+        </div>
+
+        <div className="review-actions">
+          <button type="button" className="btn btn-ghost on-dark" onClick={() => setOpen((v) => !v)}>
+            {open ? "Cerrar formulario" : "Escribir una reseña"}
+          </button>
+          {googleReady ? (
+            <a
+              href={googleUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-ghost on-dark"
+            >
+              Publicar reseña en Google
+            </a>
+          ) : null}
+          <button
+            type="button"
+            className="review-link-edit"
+            onClick={() => setEditingLink((v) => !v)}
+          >
+            {editingLink ? "Ocultar enlace de Google" : "Configurar enlace de Google"}
+          </button>
+        </div>
+
+        {editingLink ? (
+          <div className="review-form" style={{ marginBottom: 24 }}>
+            <label>
+              Enlace de reseñas de Google (perfil de empresa)
+              <input
+                value={googleUrl}
+                onChange={(e) => setGoogleUrl(e.target.value)}
+                placeholder="https://g.page/r/…/review"
+              />
+            </label>
+            <div className="review-form-actions">
+              <button
+                type="button"
+                className="mini-btn"
+                onClick={() => {
+                  try {
+                    localStorage.setItem(GOOGLE_LINK_KEY, googleUrl);
+                  } catch {
+                    /* ignore */
+                  }
+                  setEditingLink(false);
+                }}
+              >
+                Guardar enlace
+              </button>
+            </div>
+          </div>
+        ) : null}
+
+        {open ? (
+          <form className="review-form" onSubmit={submit}>
+            <label>
+              Nombre
+              <input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+                placeholder="Nombre y apellido"
+                required
+              />
+            </label>
+            <label>
+              Empresa o ciudad
+              <input
+                value={form.role}
+                onChange={(e) => setForm({ ...form, role: e.target.value })}
+                placeholder="Inmobiliaria, ciudad"
+              />
+            </label>
+            <label>
+              Valoración
+              <select
+                value={form.stars}
+                onChange={(e) => setForm({ ...form, stars: Number(e.target.value) })}
+              >
+                {[5, 4, 3, 2, 1].map((n) => (
+                  <option key={n} value={n}>
+                    {"★".repeat(n)}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Reseña
+              <textarea
+                rows={4}
+                value={form.quote}
+                onChange={(e) => setForm({ ...form, quote: e.target.value })}
+                placeholder="Cuéntanos tu experiencia"
+                required
+              />
+            </label>
+            <div className="review-form-actions">
+              <button type="submit" className="mini-btn">
+                Publicar reseña
+              </button>
+              {googleReady ? (
+                <a
+                  className="mini-btn"
+                  href={googleUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Publicarla también en Google
+                </a>
+              ) : null}
+            </div>
+          </form>
+        ) : null}
+
+        <div className="reviews-grid">
+          {reviews.length === 0 ? (
+            <div className="review-card">
+              <div className="review-stars">★★★★★</div>
+              <p className="quote">
+                Aún no hay reseñas publicadas. Sé el primero en compartir tu experiencia con Vesta.
+              </p>
+              <div className="review-who">
+                <div className="review-avatar">VS</div>
+                <div>
+                  <div className="name">Vesta</div>
+                  <div className="role">Marketing inmobiliario</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            reviews.map((r) => (
+              <div className="review-card" key={r.id}>
+                <div className="review-stars">{"★".repeat(r.stars)}</div>
+                <p className="quote">{r.quote}</p>
+                <div className="review-who">
+                  <div className="review-avatar">{initialsOf(r.name)}</div>
+                  <div>
+                    <div className="name">{r.name}</div>
+                    <div className="role">{r.role || r.date}</div>
+                  </div>
+                </div>
+                <button type="button" className="review-delete" onClick={() => persist(reviews.filter((x) => x.id !== r.id))}>
+                  Eliminar
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        <p className="reviews-note">
+          Las reseñas escritas aquí se guardan en este navegador. Para que aparezcan en tu ficha de
+          Google, pega tu enlace de reseñas de Google y usa el botón «Publicar reseña en Google».
+        </p>
+      </div>
+    </section>
+  );
+}
+
+
 function Index() {
   const [overrides, setOverrides] = useState<Record<string, string | null>>({});
   const [infos, setInfos] = useState<Record<string, CardInfo>>({});
@@ -716,46 +950,8 @@ function Index() {
         </div>
       </section>
 
-      <section className="bg-navy" id="resenas">
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">Reseñas</span>
-            <h2>Lo que dicen las inmobiliarias que ya trabajan con nosotros</h2>
-          </div>
-          <div className="reviews-grid">
-            {[
-              [
-                "AA",
-                "Sustituye este texto por la reseña real de tu cliente. Dos o tres frases sobre el resultado obtenido son suficientes.",
-              ],
-              [
-                "BB",
-                "Este es un espacio de ejemplo. Añade aquí la valoración de una segunda inmobiliaria o propietario particular.",
-              ],
-              [
-                "CC",
-                "Tercer bloque de reseña disponible. Ideal para citar un dato concreto: tiempo de alquiler o número de contactos recibidos.",
-              ],
-            ].map(([initials, quote]) => (
-              <div className="review-card" key={initials}>
-                <div className="review-stars">★★★★★</div>
-                <p className="quote">{quote}</p>
-                <div className="review-who">
-                  <div className="review-avatar">{initials}</div>
-                  <div>
-                    <div className="name">Nombre del cliente</div>
-                    <div className="role">Inmobiliaria, ciudad</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <p className="reviews-note">
-            Estos recuadros son una plantilla de ejemplo: sustitúyelos por reseñas reales de tus
-            clientes antes de publicar la página.
-          </p>
-        </div>
-      </section>
+      <ReviewsSection />
+
 
       <section id="agenda" style={{ paddingBottom: 110 }}>
         <div className="wrap">
