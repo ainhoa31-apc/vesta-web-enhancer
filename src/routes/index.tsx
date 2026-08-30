@@ -750,6 +750,47 @@ function Index() {
               </div>
             ))}
           </div>
+          <div className="google-reviews-box">
+            <div>
+              <span className="lbl">Reseñas verificadas en Google</span>
+              <p className="google-reviews-text">
+                Lee las opiniones reales de nuestros clientes en Google o deja la tuya iniciando
+                sesión con tu cuenta de Google.
+              </p>
+            </div>
+            <div className="google-reviews-actions">
+              <a
+                className="btn btn-ghost on-dark"
+                href={googleReviewsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ver reseñas en Google
+              </a>
+              <a
+                className="btn btn-primary"
+                href={googleWriteReviewUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Escribir reseña con Google
+              </a>
+            </div>
+          </div>
+          <div className="google-id-box">
+            <label>
+              ID de ficha de Google (Place ID) — opcional
+              <input
+                value={googlePlaceId}
+                onChange={(e) => setGooglePlaceId(e.target.value)}
+                placeholder="Ej: ChIJN1t_tDeuEmsRUsoyG83frY4"
+              />
+            </label>
+            <span className="hint">
+              Si lo dejas vacío, los botones abren la búsqueda de Vesta en Google. Con el Place ID
+              se abre tu ficha y el formulario oficial de reseñas de Google.
+            </span>
+          </div>
           <p className="reviews-note">
             Estos recuadros son una plantilla de ejemplo: sustitúyelos por reseñas reales de tus
             clientes antes de publicar la página.
