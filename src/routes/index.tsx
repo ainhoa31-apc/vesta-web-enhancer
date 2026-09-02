@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { AiAssistant } from "@/components/AiAssistant";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import logoAsset from "@/assets/logo-vesta.jpg.asset.json";
@@ -1052,6 +1053,7 @@ function Index() {
           </div>
         </div>
       </footer>
+      <AiAssistant />
     </>
   );
 }
