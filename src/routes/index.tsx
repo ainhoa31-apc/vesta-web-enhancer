@@ -902,33 +902,38 @@ function Index() {
               inmobiliaria no se detenga después del lanzamiento.
             </p>
           </div>
-          <div className="tickets">
+<div className="tickets">
             <div className="ticket">
-              <span className="tier">Entrada</span>
+              <span className="tier">Low ticket</span>
               <h3>Presencia esencial</h3>
               <p className="price">
-                150€<sup>+ IVA</sup>
+                250€<sup>+ IVA</sup>
               </p>
-              <p className="price-sub">más 50€/mes de mantenimiento</p>
+              <p className="price-sub">más 75€/mes de mantenimiento</p>
               <ul>
-                <li>Auditoría y optimización de anuncios</li>
-                <li>Ficha de barrio para cada inmueble</li>
+                <li>Optimización de Instagram y Facebook</li>
+                <li>Optimización de anuncios de inmuebles</li>
+                <li>Diseño de contenido para redes</li>
+                <li>Optimización de Google Business</li>
                 <li>Informe mensual de resultados</li>
               </ul>
               <CalendlyButton className="btn btn-ghost">Empezar con este plan</CalendlyButton>
             </div>
             <div className="ticket featured">
               <span className="badge">Más elegido</span>
-              <span className="tier">Medio</span>
+              <span className="tier">Medium ticket</span>
               <h3>Captación activa</h3>
               <p className="price">
-                250€<sup>+ IVA</sup>
+                500€<sup>+ IVA</sup>
               </p>
-              <p className="price-sub">más 75€/mes de mantenimiento</p>
+              <p className="price-sub">más 150€/mes de mantenimiento</p>
               <ul>
-                <li>Todo lo del plan de entrada</li>
-                <li>Pack de garantías jurídicas para propietarios</li>
-                <li>Campañas de captación de inquilinos en movilidad</li>
+                <li>Gestión de redes sociales</li>
+                <li>Creación de reels inmobiliarios</li>
+                <li>Campaña de Meta Ads</li>
+                <li>Optimización de propiedades</li>
+                <li>Seguimiento y análisis de resultados</li>
+                <li>Estrategia mensual de captación</li>
               </ul>
               <CalendlyButton className="btn btn-primary">Empezar con este plan</CalendlyButton>
             </div>
@@ -936,13 +941,17 @@ function Index() {
               <span className="tier">High ticket</span>
               <h3>Crecimiento completo</h3>
               <p className="price">
-                350€<sup>+ IVA</sup>
+                1000€<sup>+ IVA</sup>
               </p>
-              <p className="price-sub">más 100€/mes de mantenimiento</p>
+              <p className="price-sub">más 300€/mes de mantenimiento</p>
               <ul>
-                <li>Mantenimiento de página web</li>
-                <li>Creación y gestión de publicidad en redes</li>
-                <li>Posicionamiento en Google mantenido cada mes</li>
+                <li>Estrategia completa de captación</li>
+                <li>Contenido premium para propiedades</li>
+                <li>Campañas avanzadas de publicidad</li>
+                <li>SEO local para Google</li>
+                <li>Chatbot inteligente para atender consultas y captar clientes 24/7</li>
+                <li>Automatización del seguimiento de leads</li>
+                <li>Análisis y optimización mensual</li>
               </ul>
               <CalendlyButton className="btn btn-ghost">Empezar con este plan</CalendlyButton>
             </div>
