@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const CALENDLY_URL = "https://calendly.com/ainhoalfsmile/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
