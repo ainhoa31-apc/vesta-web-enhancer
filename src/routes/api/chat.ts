@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const CALENDLY_URL = "https://calendly.com/ainhoalfsmile/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de Vesta, una agencia de marketing inmobiliario.
 Respondes SIEMPRE en español, de forma breve (máximo 4 frases), cercana y profesional.

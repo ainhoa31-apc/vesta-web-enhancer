@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const CALENDLY_URL = "https://calendly.com/ainhoalfsmile/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
 const STORAGE_KEY = "vesta-photos-v1";
 const INFO_KEY = "vesta-info-v1";
