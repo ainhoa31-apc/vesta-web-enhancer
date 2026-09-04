@@ -908,7 +908,7 @@ function Index() {
               <span className="tier">Low ticket</span>
               <h3>Presencia esencial</h3>
               <p className="price">
-                250€<sup>+ IVA</sup>
+                250€
               </p>
               <p className="price-sub">más 75€/mes de mantenimiento</p>
               <ul>
@@ -925,7 +925,7 @@ function Index() {
               <span className="tier">Medium ticket</span>
               <h3>Captación activa</h3>
               <p className="price">
-                500€<sup>+ IVA</sup>
+                500€
               </p>
               <p className="price-sub">más 150€/mes de mantenimiento</p>
               <ul>
@@ -942,7 +942,7 @@ function Index() {
               <span className="tier">High ticket</span>
               <h3>Crecimiento completo</h3>
               <p className="price">
-                1000€<sup>+ IVA</sup>
+                1000€
               </p>
               <p className="price-sub">más 300€/mes de mantenimiento</p>
               <ul>
