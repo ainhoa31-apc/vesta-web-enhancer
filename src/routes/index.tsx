@@ -74,6 +74,35 @@ const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
 ];
 
 
+const PORTAL_NAMES: { match: string; name: string }[] = [
+  { match: "idealista", name: "Idealista" },
+  { match: "fotocasa", name: "Fotocasa" },
+  { match: "habitaclia", name: "Habitaclia" },
+  { match: "pisos.com", name: "Pisos.com" },
+  { match: "milanuncios", name: "Milanuncios" },
+  { match: "airbnb", name: "Airbnb" },
+  { match: "booking", name: "Booking" },
+  { match: "spotahome", name: "Spotahome" },
+  { match: "badi", name: "Badi" },
+  { match: "instagram", name: "Instagram" },
+  { match: "facebook", name: "Facebook" },
+  { match: "youtube", name: "YouTube" },
+  { match: "tiktok", name: "TikTok" },
+];
+
+function portalName(href: string): string {
+  let host = "";
+  try {
+    host = new URL(href).hostname.replace(/^www\./, "").toLowerCase();
+  } catch {
+    return "el anuncio";
+  }
+  const found = PORTAL_NAMES.find((p) => host.includes(p.match));
+  if (found) return found.name;
+  const base = host.split(".")[0] ?? host;
+  return base ? base.charAt(0).toUpperCase() + base.slice(1) : "el anuncio";
+}
+
 const CARDS: CardDef[] = [
   {
     id: "c1",
