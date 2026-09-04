@@ -1054,7 +1054,7 @@ function Index() {
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                 Agendar llamada
               </a>
-              <a href="mailto:hola@vestamarketing.com">hola@vestamarketing.com</a>
+              <a href="mailto:vestamarketinginmobiliario@gmail.com">vestamarketinginmobiliario@gmail.com</a>
               <a
                 href={INSTAGRAM_URL}
                 target="_blank"
