@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AiAssistant } from "@/components/AiAssistant";
+import { Instagram } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import logoAsset from "@/assets/logo-vesta.jpg.asset.json";
@@ -36,6 +37,9 @@ export const Route = createFileRoute("/")({
 
 const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
+const INSTAGRAM_URL =
+  "https://www.instagram.com/vestamarketing_?igsi=MWpoaWwyZTFmY3hqYw%3D%3D&utm_source=qr";
+const INSTAGRAM_HANDLE = "@vestamarketing_";
 const STORAGE_KEY = "vesta-photos-v1";
 const INFO_KEY = "vesta-info-v1";
 const EXTRA_KEY = "vesta-extra-cards-v1";
@@ -605,6 +609,16 @@ function Index() {
             <a href="#resenas">Reseñas</a>
           </nav>
           <div className="nav-cta">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-social"
+              aria-label={`Instagram ${INSTAGRAM_HANDLE}`}
+            >
+              <Instagram size={20} />
+              <span>{INSTAGRAM_HANDLE}</span>
+            </a>
             <CalendlyButton className="btn btn-primary">Agenda tu llamada</CalendlyButton>
           </div>
         </div>
@@ -1041,14 +1055,20 @@ function Index() {
                 Agendar llamada
               </a>
               <a href="mailto:hola@vestamarketing.com">hola@vestamarketing.com</a>
-              <a href="https://instagram.com/vesta.inmobiliario" target="_blank" rel="noopener">
-                @vesta.inmobiliario
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-ig"
+              >
+                <Instagram size={18} />
+                <span>{INSTAGRAM_HANDLE}</span>
               </a>
             </div>
           </div>
           <div className="footer-bottom">
             <span>© Vesta Marketing</span>
-            <span>@Vesta Inmobiliario</span>
+            <span>{INSTAGRAM_HANDLE}</span>
             <span>Todos los derechos reservados</span>
           </div>
         </div>

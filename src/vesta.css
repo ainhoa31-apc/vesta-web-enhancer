@@ -69,7 +69,15 @@ header{
 .nav-links{display:flex;gap:36px;font-size:13.5px;letter-spacing:0.04em;text-transform:uppercase;font-weight:500;}
 .nav-links a{color:var(--ink-soft);transition:color .2s;}
 .nav-links a:hover{color:var(--navy);}
-.nav-cta{display:flex;gap:14px;}
+.nav-cta{display:flex;gap:14px;align-items:center;}
+.nav-social{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Jost',sans-serif;font-size:13px;font-weight:500;
+  letter-spacing:0.02em;color:var(--navy);
+  transition:color .2s;
+}
+.nav-social:hover{color:var(--gold);}
+.nav-social span{font-weight:500;}
 .nav-toggle{display:none;}
 
 /* ---------- HERO ---------- */
@@ -264,6 +272,8 @@ footer{background:var(--navy-deep);color:#C9D0BE;padding:64px 0 30px;}
 .footer-col h4{font-size:12.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold-pale);margin-bottom:18px;font-family:'Jost',sans-serif;font-weight:500;}
 .footer-col a{display:block;font-size:13.8px;color:#C9D0BE;padding:6px 0;transition:color .2s;}
 .footer-col a:hover{color:#fff;}
+.footer-ig{display:inline-flex !important;align-items:center;gap:8px;}
+.footer-ig svg{flex-shrink:0;}
 .footer-bottom{border-top:1px solid rgba(255,255,255,0.1);padding-top:26px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;letter-spacing:0.04em;color:#8B9480;text-transform:uppercase;}
 
 /* ---------- RESPONSIVE ---------- */
