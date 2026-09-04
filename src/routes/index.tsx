@@ -60,6 +60,7 @@ type CardInfo = {
   provincia?: string;
   precio?: string;
   notas?: string;
+  enlace?: string;
 };
 
 const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
@@ -69,6 +70,7 @@ const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
   { key: "provincia", label: "Provincia" },
   { key: "precio", label: "Precio" },
   { key: "notas", label: "Notas" },
+  { key: "enlace", label: "Enlace de la publicación" },
 ];
 
 
@@ -552,12 +554,28 @@ function Index() {
     if (rows.length === 0) return null;
     return (
       <ul className="p-card-info">
-        {rows.map((f) => (
-          <li key={f.key}>
-            <span>{f.label}</span>
-            <strong>{info[f.key]}</strong>
-          </li>
-        ))}
+        {rows.map((f) => {
+          const value = (info[f.key] ?? "").trim();
+          const isLink = f.key === "enlace";
+          const href = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+          return (
+            <li key={f.key}>
+              <span>{f.label}</span>
+              {isLink ? (
+                <a
+                  className="p-card-info-link"
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Ver publicación
+                </a>
+              ) : (
+                <strong>{value}</strong>
+              )}
+            </li>
+          );
+        })}
       </ul>
     );
   };
