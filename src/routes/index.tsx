@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AiAssistant } from "@/components/AiAssistant";
+import { Instagram } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import logoAsset from "@/assets/logo-vesta.jpg.asset.json";
@@ -36,6 +37,9 @@ export const Route = createFileRoute("/")({
 
 const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
+const INSTAGRAM_URL =
+  "https://www.instagram.com/vestamarketing_?igsi=MWpoaWwyZTFmY3hqYw%3D%3D&utm_source=qr";
+const INSTAGRAM_HANDLE = "@vestamarketing_";
 const STORAGE_KEY = "vesta-photos-v1";
 const INFO_KEY = "vesta-info-v1";
 const EXTRA_KEY = "vesta-extra-cards-v1";
