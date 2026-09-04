@@ -568,7 +568,7 @@ function Index() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Ver publicación
+                  Ver en {portalName(href)}
                 </a>
               ) : (
                 <strong>{value}</strong>
