@@ -60,6 +60,7 @@ type CardInfo = {
   provincia?: string;
   precio?: string;
   notas?: string;
+  enlace?: string;
 };
 
 const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
@@ -69,6 +70,7 @@ const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
   { key: "provincia", label: "Provincia" },
   { key: "precio", label: "Precio" },
   { key: "notas", label: "Notas" },
+  { key: "enlace", label: "Enlace de la publicación" },
 ];
 
 
