@@ -609,6 +609,16 @@ function Index() {
             <a href="#resenas">Reseñas</a>
           </nav>
           <div className="nav-cta">
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="nav-social"
+              aria-label={`Instagram ${INSTAGRAM_HANDLE}`}
+            >
+              <Instagram size={20} />
+              <span>{INSTAGRAM_HANDLE}</span>
+            </a>
             <CalendlyButton className="btn btn-primary">Agenda tu llamada</CalendlyButton>
           </div>
         </div>
@@ -1045,14 +1055,20 @@ function Index() {
                 Agendar llamada
               </a>
               <a href="mailto:hola@vestamarketing.com">hola@vestamarketing.com</a>
-              <a href="https://instagram.com/vesta.inmobiliario" target="_blank" rel="noopener">
-                @vesta.inmobiliario
+              <a
+                href={INSTAGRAM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="footer-ig"
+              >
+                <Instagram size={18} />
+                <span>{INSTAGRAM_HANDLE}</span>
               </a>
             </div>
           </div>
           <div className="footer-bottom">
             <span>© Vesta Marketing</span>
-            <span>@Vesta Inmobiliario</span>
+            <span>{INSTAGRAM_HANDLE}</span>
             <span>Todos los derechos reservados</span>
           </div>
         </div>
