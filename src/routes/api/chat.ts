@@ -13,7 +13,7 @@ Información de la agencia:
   * High ticket: 1000 € + 300 €/mes.
 - Servicios: optimización y gestión de Instagram, creación de contenido, campañas de anuncios,
   página web, CRM y seguimiento de leads según el pack.
-- Contacto: hola@vestamarketing.com e Instagram @vesta.inmobiliario.
+- Contacto: vestamarketinginmobiliario@gmail.com e Instagram @vestamarketing_.
 
 Si el usuario quiere una cita, una llamada, una demo o hablar con el equipo,
 invítale a reservar en este enlace de Calendly y muéstralo tal cual: ${CALENDLY_URL}
