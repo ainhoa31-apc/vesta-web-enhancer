@@ -16,18 +16,10 @@ import home8 from "@/assets/home-8.avif.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vesta — Marketing inmobiliario para alquileres temporales" },
-      {
-        name: "description",
-        content:
-          "Vesta conecta inmobiliarias con inquilinos de alquiler temporal: profesores, funcionarios y personal en movilidad. Auditorías, posicionamiento y garantías jurídicas.",
-      },
-      { property: "og:title", content: "Vesta — Marketing inmobiliario para alquileres temporales" },
-      {
-        property: "og:description",
-        content:
-          "Optimizamos anuncios de alquiler de temporada para profesores y funcionarios en movilidad. Agenda una llamada de 30 minutos.",
-      },
+      { title: "vestamarketinginmobiliario.com" },
+      { name: "description", content: "vestamarketinginmobiliario.com" },
+      { property: "og:title", content: "vestamarketinginmobiliario.com" },
+      { property: "og:description", content: "vestamarketinginmobiliario.com" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
