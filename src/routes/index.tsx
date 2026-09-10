@@ -16,10 +16,10 @@ import home8 from "@/assets/home-8.avif.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "vestamarketinginmobiliario.com" },
-      { name: "description", content: "vestamarketinginmobiliario.com" },
-      { property: "og:title", content: "vestamarketinginmobiliario.com" },
-      { property: "og:description", content: "vestamarketinginmobiliario.com" },
+      { title: "vesta-marketing-inmobiliario" },
+      { name: "description", content: "vesta-marketing indicada esta pagina para encontrar su espacio temporal y ayudar a vuestras inmobiliarias a dar un paso mas avanzado" },
+      { property: "og:title", content: "vesta-marketing-inmobiliario" },
+      { property: "og:description", content: "vesta-marketing indicada esta pagina para encontrar su espacio temporal y ayudar a vuestras inmobiliarias a dar un paso mas avanzado" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
