@@ -22,6 +22,27 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "vesta-marketing indicada esta pagina para encontrar su espacio temporal y ayudar a vuestras inmobiliarias a dar un paso mas avanzado" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:site_name", content: "vesta-marketing-inmobiliario" },
+      { property: "og:url", content: "https://vesta-web-enhancer.lovable.app/" },
+    ],
+    links: [{ rel: "canonical", href: "https://vesta-web-enhancer.lovable.app/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "vesta-marketing-inmobiliario",
+          alternateName: "vesta-marketing-inmobiliario",
+          url: "https://vesta-web-enhancer.lovable.app/",
+          publisher: {
+            "@type": "Organization",
+            name: "vesta-marketing-inmobiliario",
+            url: "https://vesta-web-enhancer.lovable.app/",
+            logo: "https://vesta-web-enhancer.lovable.app/favicon.png",
+          },
+        }),
+      },
     ],
   }),
   component: Index,
