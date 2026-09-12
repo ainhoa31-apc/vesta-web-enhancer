@@ -17,9 +17,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Vesta Marketing Inmobiliario | Encuentra al inquilino ideal para tu alquiler temporal" },
-      { name: "description", content: "Vesta Marketing Inmobiliario conecta inmobiliarias con inquilinos para alquileres temporales: profesores, funcionarios y personal desplazado. Marketing inmobiliario." },
+      { name: "description", content: "Ayudamos a inmobiliarias a encontrar inquilinos ideales para alquileres temporales —profesores, funcionarios y personal desplazado— con paquetes de marketing." },
       { property: "og:title", content: "Vesta Marketing Inmobiliario" },
-      { property: "og:description", content: "Vesta Marketing Inmobiliario conecta inmobiliarias con inquilinos para alquileres temporales: profesores, funcionarios y personal desplazado. Marketing inmobiliario." },
+      { property: "og:description", content: "Ayudamos a inmobiliarias a encontrar inquilinos ideales para alquileres temporales —profesores, funcionarios y personal desplazado— con paquetes de marketing." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Vesta Marketing Inmobiliario" },
