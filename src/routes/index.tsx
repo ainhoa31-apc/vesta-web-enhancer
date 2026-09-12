@@ -24,9 +24,9 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Vesta Marketing Inmobiliario" },
       { property: "og:site_name", content: "vesta-marketing-inmobiliario" },
-      { property: "og:url", content: "https://vesta-web-enhancer.lovable.app/" },
+      { property: "og:url", content: "https://vestamarketinginmobiliario.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://vesta-web-enhancer.lovable.app/" }],
+    links: [{ rel: "canonical", href: "https://vestamarketinginmobiliario.com/" }],
     scripts: [
       {
         type: "application/ld+json",
