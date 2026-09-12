@@ -16,12 +16,13 @@ import home8 from "@/assets/home-8.avif.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "vesta-marketing-inmobiliario" },
-      { name: "description", content: "vesta-marketing indicada esta pagina para encontrar su espacio temporal y ayudar a vuestras inmobiliarias a dar un paso mas avanzado" },
-      { property: "og:title", content: "vesta-marketing-inmobiliario" },
-      { property: "og:description", content: "vesta-marketing indicada esta pagina para encontrar su espacio temporal y ayudar a vuestras inmobiliarias a dar un paso mas avanzado" },
+      { title: "Vesta Marketing Inmobiliario | Encuentra al inquilino ideal para tu alquiler temporal" },
+      { name: "description", content: "Vesta Marketing Inmobiliario conecta inmobiliarias con inquilinos para alquileres temporales: profesores, funcionarios y personal desplazado. Marketing inmobiliario." },
+      { property: "og:title", content: "Vesta Marketing Inmobiliario" },
+      { property: "og:description", content: "Vesta Marketing Inmobiliario conecta inmobiliarias con inquilinos para alquileres temporales: profesores, funcionarios y personal desplazado. Marketing inmobiliario." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Vesta Marketing Inmobiliario" },
       { property: "og:site_name", content: "vesta-marketing-inmobiliario" },
       { property: "og:url", content: "https://vesta-web-enhancer.lovable.app/" },
     ],
