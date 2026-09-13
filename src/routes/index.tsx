@@ -479,6 +479,21 @@ function Index() {
   const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
 
   useEffect(() => {
+    const host = window.location.hostname;
+    if (host === "vesta-web-enhancer.lovable.app") {
+      // Vista previa de Lovable: marcar como no indexable y redirigir al dominio real
+      const meta = document.createElement("meta");
+      meta.setAttribute("name", "robots");
+      meta.setAttribute("content", "noindex, nofollow");
+      document.head.appendChild(meta);
+      window.location.replace("https://vestamarketinginmobiliario.com/");
+      return;
+    }
+    // En vestamarketinginmobiliario.com o www.vestamarketinginmobiliario.com
+    // no se aplica nada: la página carga igual que ahora.
+  }, []);
+
+  useEffect(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY);
       if (raw) setOverrides(JSON.parse(raw));
