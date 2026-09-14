@@ -11,8 +11,8 @@ const WELCOME: Msg = {
 };
 
 const SUGGESTIONS = [
-  "¿Qué incluye cada pack?",
-  "¿Cuánto cuesta el servicio?",
+  "Busco alquiler temporal en Almería",
+  "Soy una inmobiliaria, ¿qué incluye el servicio?",
   "Quiero pedir cita",
 ];
 
