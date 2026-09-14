@@ -461,3 +461,24 @@ footer{background:var(--navy-deep);color:#C9D0BE;padding:64px 0 30px;}
   border-bottom:1px solid var(--gold);text-align:right;word-break:break-all;
 }
 .p-card-info-link:hover{color:var(--gold);}
+/* ===== Comparador de vivienda (formulario de contacto) ===== */
+.comparador-section{padding:88px 0 96px;background:var(--sage-pale);}
+.comparador-box{max-width:760px;margin:0 auto;background:#fff;border:1px solid var(--line);padding:44px 40px;}
+.comparador-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px 26px;margin-bottom:30px;}
+.comparador-grid label{display:flex;flex-direction:column;gap:8px;font-size:12.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--sage-deep);font-weight:500;}
+.comparador-grid input,
+.comparador-grid select{
+  width:100%;padding:11px 12px;border:1px solid var(--line);background:#fff;
+  font-family:'Jost',sans-serif;font-size:14.5px;color:var(--ink);border-radius:2px;
+  text-transform:none;letter-spacing:normal;
+}
+.comparador-grid select{cursor:pointer;}
+.comparador-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.comparador-or{font-size:13px;color:var(--ink-soft);}
+.comparador-done h3{font-size:24px;color:var(--navy-deep);margin-bottom:14px;font-family:'Playfair Display',serif;}
+.comparador-done p{color:var(--ink-soft);font-size:14.8px;margin-bottom:16px;}
+.comparador-done a{color:var(--navy);text-decoration:underline;}
+@media (max-width: 720px){
+  .comparador-grid{grid-template-columns:1fr;}
+  .comparador-box{padding:32px 22px;}
+}
