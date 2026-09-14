@@ -900,7 +900,8 @@ function Index() {
           ))}
         </div>
       </div>
-
+      <ComparadorSection />
+      
       <section className="carousel-section">
         <div className="wrap">
           <div className="carousel-head">
