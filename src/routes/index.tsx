@@ -469,7 +469,127 @@ function ReviewsSection() {
   );
 }
 
+function ComparadorSection() {
+  const [zona, setZona] = useState("");
+  const [presupuesto, setPresupuesto] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [contacto, setContacto] = useState("");
+  const [enviado, setEnviado] = useState(false);
 
+  const puedeEnviar = Boolean(zona && presupuesto && nombre.trim() && contacto.trim());
+
+  return (
+    <section className="comparador-section" aria-label="Encuentra tu vivienda">
+      <div className="wrap">
+        <div className="section-head">
+          <h2>Cuéntanos qué buscas</h2>
+          <p>
+            Indícanos la zona y el presupuesto que manejas y te contactamos con las opciones
+            disponibles, o reserva directamente una llamada.
+          </p>
+        </div>
+
+        <div className="comparador-box">
+          {enviado ? (
+            <div className="comparador-done">
+              <h3>¡Solicitud preparada!</h3>
+              <p>
+                Se ha abierto tu programa de correo con tu solicitud lista para enviar a Vesta.
+                Si no se ha abierto automáticamente, escríbenos a{" "}
+                <a href="mailto:vestamarketinginmobiliario@gmail.com">
+                  vestamarketinginmobiliario@gmail.com
+                </a>
+                .
+              </p>
+              <p>¿Prefieres ir más rápido?</p>
+              <CalendlyButton className="btn btn-primary">Reservar llamada directa</CalendlyButton>
+            </div>
+          ) : (
+            <form
+              className="comparador-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!puedeEnviar) return;
+                const asunto = `Nueva solicitud de vivienda - ${zona}`;
+                const cuerpo = [
+                  `Zona de interes: ${zona}`,
+                  `Presupuesto: ${presupuesto}`,
+                  `Nombre: ${nombre}`,
+                  `Contacto (telefono/email): ${contacto}`,
+                ].join("\n");
+                window.location.href = `mailto:vestamarketinginmobiliario@gmail.com?subject=${encodeURIComponent(
+                  asunto,
+                )}&body=${encodeURIComponent(cuerpo)}`;
+                setEnviado(true);
+              }}
+            >
+              <div className="comparador-grid">
+                <label>
+                  Zona
+                  <select value={zona} onChange={(e) => setZona(e.target.value)} required>
+                    <option value="" disabled>
+                      Selecciona una zona
+                    </option>
+                    <option value="Almería capital">Almería capital</option>
+                    <option value="Aguadulce">Aguadulce</option>
+                    <option value="Roquetas de Mar">Roquetas de Mar</option>
+                  </select>
+                </label>
+
+                <label>
+                  Presupuesto mensual
+                  <select
+                    value={presupuesto}
+                    onChange={(e) => setPresupuesto(e.target.value)}
+                    required
+                  >
+                    <option value="" disabled>
+                      Selecciona un rango
+                    </option>
+                    <option value="500-600€">500 € - 600 €</option>
+                    <option value="600-900€">600 € - 900 €</option>
+                    <option value="900-1200€">900 € - 1.200 €</option>
+                    <option value="Más de 1.200€">Más de 1.200 €</option>
+                  </select>
+                </label>
+
+                <label>
+                  Nombre
+                  <input
+                    type="text"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
+                    placeholder="Tu nombre"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Teléfono o email
+                  <input
+                    type="text"
+                    value={contacto}
+                    onChange={(e) => setContacto(e.target.value)}
+                    placeholder="600 000 000 o tu@email.com"
+                    required
+                  />
+                </label>
+              </div>
+
+              <div className="comparador-actions">
+                <button type="submit" className="btn btn-primary" disabled={!puedeEnviar}>
+                  Enviar solicitud
+                </button>
+                <span className="comparador-or">o</span>
+                <CalendlyButton className="btn btn-ghost">Reservar llamada directa</CalendlyButton>
+              </div>
+            </form>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
 function Index() {
   const [overrides, setOverrides] = useState<Record<string, string | null>>({});
   const [infos, setInfos] = useState<Record<string, CardInfo>>({});
