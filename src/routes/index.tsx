@@ -3,7 +3,7 @@ import { AiAssistant } from "@/components/AiAssistant";
 import { Instagram } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import logoAsset from "@/assets/logo-vesta.jpg.asset.json";
+import logoAsset from "@/assets/vesta-logo.png.asset.json";
 import home1 from "@/assets/home-1.png.asset.json";
 import home2 from "@/assets/home-2.png.asset.json";
 import home3 from "@/assets/home-3.png.asset.json";
