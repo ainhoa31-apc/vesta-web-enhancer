@@ -12,6 +12,7 @@ import home5 from "@/assets/home-5.png.asset.json";
 import home6 from "@/assets/home-6.png.asset.json";
 import home7 from "@/assets/home-7.png.asset.json";
 import home8 from "@/assets/home-8.avif.asset.json";
+import heroDecorative from "@/assets/vesta-hero-decorativa.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -184,7 +185,7 @@ const CARDS: CardDef[] = [
   },
 ];
 
-const HERO_DEFAULT = home6.url;
+const HERO_DEFAULT = heroDecorative.url;
 
 const FAQS: [string, string][] = [
   [
@@ -1015,7 +1016,7 @@ function Index() {
               <span className="tier">Medium ticket</span>
               <h3>Captación activa</h3>
               <p className="price">
-                500€
+                499€
               </p>
               <p className="price-sub">más 150€/mes de mantenimiento</p>
               <ul>
@@ -1032,7 +1033,7 @@ function Index() {
               <span className="tier">High ticket</span>
               <h3>Crecimiento completo</h3>
               <p className="price">
-                1000€
+                999€
               </p>
               <p className="price-sub">más 300€/mes de mantenimiento</p>
               <ul>
