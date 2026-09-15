@@ -252,6 +252,36 @@ type Review = {
   date: string;
 };
 
+const DEFAULT_REVIEWS: Review[] = [
+  {
+    id: "default-1",
+    name: "emilio",
+    role: "cliente",
+    stars: 5,
+    quote:
+      "buenas¡¡¡ contacte con ellos porque necesitaba alojamiento temporal y me asoro bastante bien , y me dijo un tiempo estimado en el que iba a tardar y asi fue ahora tengo alojamiento al lado de mi trabajo y estoy muy contento . muchisimas gracias y un saludo¡¡¡",
+    date: "",
+  },
+  {
+    id: "default-2",
+    name: "javier sanchez",
+    role: "inmobiliaria",
+    stars: 5,
+    quote:
+      "necesitaba para mi inmobiliaria , una pagina web contacte con ellos y me resolvieron el problema con justo lo que queria , gracias de verda . os lo recomiendo muchisimo ¡¡¡¡. otro dato que daria seria que son rapidos en resolverte el problema no suelen tardar muchos casi siempre te dicen lo que pueden tardar mas o menos con cada trabajo. un saludo¡¡",
+    date: "",
+  },
+  {
+    id: "default-3",
+    name: "laura",
+    role: "Almería",
+    stars: 5,
+    quote:
+      "Me ayudaron bastante en esta agencia , le contacte por su comparador le envie el mensaje con mi contacto , y me ayudaron a buscar alojamiento . muchas gracias ¡¡¡",
+    date: "",
+  },
+];
+
 function initialsOf(name: string) {
   return (
     name
@@ -264,7 +294,7 @@ function initialsOf(name: string) {
 }
 
 function ReviewsSection() {
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [localReviews, setLocalReviews] = useState<Review[]>([]);
   const [googleUrl, setGoogleUrl] = useState(DEFAULT_GOOGLE_URL);
   const [editingLink, setEditingLink] = useState(false);
   const [open, setOpen] = useState(false);
@@ -273,7 +303,7 @@ function ReviewsSection() {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(REVIEWS_KEY);
-      if (raw) setReviews(JSON.parse(raw) as Review[]);
+      if (raw) setLocalReviews(JSON.parse(raw) as Review[]);
       const link = localStorage.getItem(GOOGLE_LINK_KEY);
       if (link) setGoogleUrl(link);
     } catch {
@@ -282,7 +312,7 @@ function ReviewsSection() {
   }, []);
 
   const persist = (next: Review[]) => {
-    setReviews(next);
+    setLocalReviews(next);
     try {
       localStorage.setItem(REVIEWS_KEY, JSON.stringify(next));
     } catch {
@@ -301,12 +331,13 @@ function ReviewsSection() {
       quote: form.quote.trim(),
       date: new Date().toLocaleDateString("es-ES"),
     };
-    persist([review, ...reviews]);
+    persist([review, ...localReviews]);
     setForm({ name: "", role: "", stars: 5, quote: "" });
     setOpen(false);
   };
 
   const googleReady = googleUrl.trim().length > DEFAULT_GOOGLE_URL.length;
+  const allReviews = [...DEFAULT_REVIEWS, ...localReviews];
 
   return (
     <section className="bg-navy" id="resenas">
@@ -429,7 +460,7 @@ function ReviewsSection() {
         ) : null}
 
         <div className="reviews-grid">
-          {reviews.length === 0 ? (
+          {allReviews.length === 0 ? (
             <div className="review-card">
               <div className="review-stars">★★★★★</div>
               <p className="quote">
@@ -444,7 +475,7 @@ function ReviewsSection() {
               </div>
             </div>
           ) : (
-            reviews.map((r) => (
+            allReviews.map((r) => (
               <div className="review-card" key={r.id}>
                 <div className="review-stars">{"★".repeat(r.stars)}</div>
                 <p className="quote">{r.quote}</p>
@@ -455,9 +486,15 @@ function ReviewsSection() {
                     <div className="role">{r.role || r.date}</div>
                   </div>
                 </div>
-                <button type="button" className="review-delete" onClick={() => persist(reviews.filter((x) => x.id !== r.id))}>
-                  Eliminar
-                </button>
+                {!r.id.startsWith("default-") && (
+                  <button
+                    type="button"
+                    className="review-delete"
+                    onClick={() => persist(localReviews.filter((x) => x.id !== r.id))}
+                  >
+                    Eliminar
+                  </button>
+                )}
               </div>
             ))
           )}
