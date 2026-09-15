@@ -11,8 +11,10 @@ const WELCOME: Msg = {
 };
 
 const SUGGESTIONS = [
-  "Busco alquiler temporal en Almería",
+  "¿Qué zonas de Almería cubrís?",
+  "¿Cómo reservo una vivienda?",
   "Soy una inmobiliaria, ¿qué incluye el servicio?",
+  "¿Cómo funciona el alquiler temporal?",
   "Quiero pedir cita",
 ];
 
