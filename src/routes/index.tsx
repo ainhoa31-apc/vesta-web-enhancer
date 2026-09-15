@@ -475,11 +475,12 @@ function ReviewsSection() {
 function ComparadorSection() {
   const [zona, setZona] = useState("");
   const [presupuesto, setPresupuesto] = useState("");
+  const [habitaciones, setHabitaciones] = useState("");
   const [nombre, setNombre] = useState("");
   const [contacto, setContacto] = useState("");
   const [enviado, setEnviado] = useState(false);
 
-  const puedeEnviar = Boolean(zona && presupuesto && nombre.trim() && contacto.trim());
+  const puedeEnviar = Boolean(zona && presupuesto && habitaciones && nombre.trim() && contacto.trim());
 
   return (
     <section className="comparador-section" aria-label="Encuentra tu vivienda">
@@ -517,6 +518,7 @@ function ComparadorSection() {
                 const cuerpo = [
                   `Zona de interes: ${zona}`,
                   `Presupuesto: ${presupuesto}`,
+                  `Habitaciones: ${habitaciones}`,
                   `Nombre: ${nombre}`,
                   `Contacto (telefono/email): ${contacto}`,
                 ].join("\n");
@@ -555,6 +557,23 @@ function ComparadorSection() {
                     <option value="Más de 1.200€">Más de 1.200 €</option>
                   </select>
                 </label>
+
+                <label>
+                        Número de habitaciones
+                        <select
+                          value={habitaciones}
+                          onChange={(e) => setHabitaciones(e.target.value)}
+                          required
+                        >
+                          <option value="" disabled>
+                            Selecciona una opción
+                          </option>
+                          <option value="1 habitación">1 habitación</option>
+                          <option value="2 habitaciones">2 habitaciones</option>
+                          <option value="3 habitaciones">3 habitaciones</option>
+                          <option value="4 o más habitaciones">4 o más habitaciones</option>
+                        </select>
+                      </label>
 
                 <label>
                   Nombre
