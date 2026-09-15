@@ -51,6 +51,9 @@ export const Route = createFileRoute("/")({
 });
 
 const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
+// URL base de Lovable: sirve las imágenes subidas mientras el dominio propio
+// no esté conectado como dominio personalizado (eso requiere plan Pro de Lovable).
+const LOVABLE_CDN = "https://vesta-web-enhancer.lovable.app";
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
 const INSTAGRAM_URL =
   "https://www.instagram.com/vestamarketing_?igsi=MWpoaWwyZTFmY3hqYw%3D%3D&utm_source=qr";
@@ -125,7 +128,7 @@ const CARDS: CardDef[] = [
     title: "Estudio para docente",
     text: "Piso pequeño y funcional cerca de centros educativos, ideal para un curso académico completo.",
     link: "Ver anuncio en Idealista",
-    photo: home1.url,
+    photo: `${LOVABLE_CDN}${home1.url}`,
   },
   {
     id: "c2",
@@ -133,7 +136,7 @@ const CARDS: CardDef[] = [
     title: "Vivienda con zona de escritorio",
     text: "Espacio diferenciado para preparar clases o estudiar, la primera objeción que resuelve un docente.",
     link: "Ver anuncio en Fotocasa",
-    photo: home2.url,
+    photo: `${LOVABLE_CDN}${home2.url}`,
   },
   {
     id: "c3",
@@ -141,7 +144,7 @@ const CARDS: CardDef[] = [
     title: "Piso con internet de alta velocidad",
     text: "Fibra verificada y router incluido, imprescindible para teletrabajo y videollamadas de oposición.",
     link: "Ver anuncio en Idealista",
-    photo: home3.url,
+    photo: `${LOVABLE_CDN}${home3.url}`,
   },
   {
     id: "c4",
@@ -149,7 +152,7 @@ const CARDS: CardDef[] = [
     title: "Amueblado y equipado para mudanza ligera",
     text: "Listo desde el primer día: menaje, textiles y electrodomésticos, sin inversión inicial del inquilino.",
     link: "Ver anuncio en Fotocasa",
-    photo: home4.url,
+    photo: `${LOVABLE_CDN}${home4.url}`,
   },
   {
     id: "c5",
@@ -157,7 +160,7 @@ const CARDS: CardDef[] = [
     title: "Cerca de estación o parada principal",
     text: "Para quien prioriza moverse rápido por la ciudad frente a vivir pegado al centro de trabajo.",
     link: "Ver anuncio en Idealista",
-    photo: home5.url,
+    photo: `${LOVABLE_CDN}${home5.url}`,
   },
   {
     id: "c6",
@@ -165,7 +168,7 @@ const CARDS: CardDef[] = [
     title: "Temporada de curso académico",
     text: "Contrato ajustado a calendario escolar, con condiciones de salida claras desde el inicio.",
     link: "Ver anuncio en Idealista",
-    photo: home6.url,
+    photo: `${LOVABLE_CDN}${home6.url}`,
   },
   {
     id: "c7",
@@ -173,7 +176,7 @@ const CARDS: CardDef[] = [
     title: "Zona residencial orientada al recién llegado",
     text: "Ficha de barrio incluida para quien no conoce la ciudad: servicios, seguridad y ambiente.",
     link: "Ver anuncio en Fotocasa",
-    photo: home7.url,
+    photo: `${LOVABLE_CDN}${home7.url}`,
   },
   {
     id: "c8",
@@ -181,11 +184,11 @@ const CARDS: CardDef[] = [
     title: "Flexible con justificación de ingresos",
     text: "Alternativas a la nómina tradicional para interinos y opositores recién aprobados.",
     link: "Ver anuncio en Idealista",
-    photo: home8.url,
+    photo: `${LOVABLE_CDN}${home8.url}`,
   },
 ];
 
-const HERO_DEFAULT = heroDecorative.url;
+const HERO_DEFAULT = `${LOVABLE_CDN}${heroDecorative.url}`;
 
 const FAQS: [string, string][] = [
   [
@@ -796,7 +799,7 @@ function Index() {
       <header>
         <div className="nav">
           <a href="#top" className="nav-brand">
-            <img src={logoAsset.url} alt="Logotipo de Vesta" />
+            <img src={`${LOVABLE_CDN}${logoAsset.url}`} alt="Logotipo de Vesta" />
             <span>Vesta</span>
           </a>
           <nav className="nav-links">
@@ -1227,7 +1230,7 @@ function Index() {
           <div className="footer-grid">
             <div>
               <div className="footer-brand">
-                <img src={logoAsset.url} alt="Logotipo de Vesta" />
+                <img src={`${LOVABLE_CDN}${logoAsset.url}`} alt="Logotipo de Vesta" />
                 <span>Vesta</span>
               </div>
               <p>
