@@ -413,6 +413,22 @@ footer{background:var(--navy-deep);color:#C9D0BE;padding:64px 0 30px;}
 .ai-msg-user { align-self: flex-end; background: #26317a; color: #f7f3e9; }
 .ai-typing { opacity: 0.7; font-style: italic; }
 .ai-error { font-size: 13px; color: #a3271f; }
+.ai-suggestions-toggle {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 14px 4px;
+}
+.ai-suggestions-toggle-btn {
+  border: none;
+  background: transparent;
+  color: #26317a;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+  opacity: 0.75;
+}
+.ai-suggestions-toggle-btn:hover { opacity: 1; text-decoration: underline; }
 .ai-suggestions {
   display: flex;
   flex-wrap: wrap;
