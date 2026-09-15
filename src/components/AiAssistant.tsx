@@ -38,6 +38,7 @@ const [messages, setMessages] = useState<Msg[]>([WELCOME]);
 const [input, setInput] = useState("");
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string | null>(null);
+const [showSuggestions, setShowSuggestions] = useState(true);
 const bodyRef = useRef<HTMLDivElement>(null);
 
 useEffect(() => {
@@ -109,13 +110,33 @@ Pedir cita
 {error && <div className="ai-error">{error}</div>}
 </div>
 
+<div className="ai-suggestions-toggle">
+<button
+type="button"
+className="ai-suggestions-toggle-btn"
+onClick={() => setShowSuggestions((v) => !v)}
+>
+{showSuggestions ? "Ocultar preguntas ▲" : "Ver preguntas sugeridas ▼"}
+</button>
+</div>
+
+{showSuggestions && (
 <div className="ai-suggestions">
 {SUGGESTIONS.map((s) => (
-<button key={s} type="button" onClick={() => send(s)} disabled={loading}>
+<button
+key={s}
+type="button"
+onClick={() => {
+setShowSuggestions(false);
+send(s);
+}}
+disabled={loading}
+>
 {s}
 </button>
 ))}
 </div>
+)}
 
 <form
 className="ai-form"
