@@ -27,7 +27,7 @@ export const Route = createFileRoute("/")({
       { property: "og:site_name", content: "vesta-marketing-inmobiliario" },
       { property: "og:url", content: "https://vestamarketinginmobiliario.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://vestamarketinginmobiliario.com/" }],
+    links: [{ rel: "canonical", href: "https://www.vestamarketinginmobiliario.com/" }],
     scripts: [
       {
         type: "application/ld+json",
