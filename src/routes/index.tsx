@@ -174,8 +174,8 @@ const PLANS = [
   {
     tier: "Low ticket",
     name: "Presencia esencial",
-    price: "299€",
-    sub: "más 49€/mes de mantenimiento",
+    price: "399€",
+    sub: "+ mantenimiento desde 59€/mes",
     featured: false,
     items: [
       "Diseño de logotipo",
@@ -188,8 +188,8 @@ const PLANS = [
   {
     tier: "Medium ticket",
     name: "Negocio digital",
-    price: "699€",
-    sub: "más 149€/mes de mantenimiento",
+    price: "999€",
+    sub: "+ mantenimiento desde 179€/mes",
     featured: true,
     items: [
       "Logotipo y paleta de colores de marca",
@@ -203,8 +203,8 @@ const PLANS = [
   {
     tier: "High ticket",
     name: "Crecimiento completo",
-    price: "1.499€",
-    sub: "más 299€/mes de mantenimiento",
+    price: "2.599€",
+    sub: "+ mantenimiento desde 399€/mes",
     featured: false,
     items: [
       "Identidad de marca completa (logo, colores, tipografías y plantillas)",
@@ -952,7 +952,22 @@ function Index() {
                 {p.featured && <span className="badge">Más elegido</span>}
                 <span className="tier">{p.tier}</span>
                 <h3>{p.name}</h3>
-                <p className="price">{p.price}</p>
+                <p className="price">
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: 13,
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: "var(--sage-deep)",
+                      marginBottom: 2,
+                    }}
+                  >
+                    Desde
+                  </span>
+                  {p.price}
+                </p>
                 <p className="price-sub">{p.sub}</p>
                 <ul>
                   {p.items.map((it) => (
@@ -962,6 +977,18 @@ function Index() {
                 <CalendlyButton className={`btn ${p.featured ? "btn-primary" : "btn-ghost"}`}>
                   Empezar con este plan
                 </CalendlyButton>
+                <p
+                  style={{
+                    fontSize: 12.5,
+                    lineHeight: 1.5,
+                    color: "var(--ink-soft)",
+                    textAlign: "center",
+                    marginTop: 14,
+                  }}
+                >
+                  El precio final te lo damos tras una asesoría gratuita: presupuesto cerrado por escrito
+                  y contrato firmado antes de empezar. Sin sorpresas ni letra pequeña.
+                </p>
               </div>
             ))}
           </div>
