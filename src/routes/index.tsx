@@ -34,9 +34,9 @@ export const Route = createFileRoute("/")({
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: PAGE_TITLE },
       { property: "og:site_name", content: "Vesta Marketing" },
-      { property: "og:url", content: "https://www.vestamarketinginmobiliario.com/" },
+      { property: "og:url", content: "https://www.vestamarketingautiva.com/" },
     ],
-    links: [{ rel: "canonical", href: "https://www.vestamarketinginmobiliario.com/" }],
+    links: [{ rel: "canonical", href: "https://www.vestamarketingautiva.com/" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -44,12 +44,12 @@ export const Route = createFileRoute("/")({
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Vesta Marketing",
-          url: "https://www.vestamarketinginmobiliario.com/",
+          url: "https://www.vestamarketingautiva.com/",
           publisher: {
             "@type": "Organization",
             name: "Vesta Marketing",
-            url: "https://www.vestamarketinginmobiliario.com/",
-            logo: "https://www.vestamarketinginmobiliario.com/favicon.png",
+            url: "https://www.vestamarketingautiva.com/",
+            logo: "https://www.vestamarketingautiva.com/favicon.png",
           },
         }),
       },
@@ -752,7 +752,7 @@ function Index() {
       meta.setAttribute("name", "robots");
       meta.setAttribute("content", "noindex, nofollow");
       document.head.appendChild(meta);
-      window.location.replace("https://vestamarketinginmobiliario.com/");
+      window.location.replace("https://www.vestamarketingautiva.com/");
     }
   }, []);
 
