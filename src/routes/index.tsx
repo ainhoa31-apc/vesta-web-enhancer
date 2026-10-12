@@ -1,31 +1,40 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AiAssistant } from "@/components/AiAssistant";
-import { Instagram } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  ArrowRight,
+  Bot,
+  CalendarCheck,
+  Check,
+  Globe,
+  Instagram,
+  Mail,
+  Megaphone,
+  PenTool,
+  Sheet,
+  Sparkles,
+  Workflow,
+  Zap,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
 import logoAsset from "@/assets/vesta-logo.png.asset.json";
-import home1 from "@/assets/home-1.png.asset.json";
-import home2 from "@/assets/home-2.png.asset.json";
-import home3 from "@/assets/home-3.png.asset.json";
-import home4 from "@/assets/home-4.png.asset.json";
-import home5 from "@/assets/home-5.png.asset.json";
-import home6 from "@/assets/home-6.png.asset.json";
-import home7 from "@/assets/home-7.png.asset.json";
-import home8 from "@/assets/home-8.avif.asset.json";
-import heroDecorative from "@/assets/vesta-hero-decorativa.png.asset.json";
+
+const PAGE_TITLE = "Vesta Marketing | Webs, chatbots con IA, automatizaciones n8n, logos y redes sociales";
+const PAGE_DESCRIPTION =
+  "Agencia de marketing digital en Almería. Creamos páginas web, chatbots con IA, automatizaciones con n8n, logos e identidad de marca, y gestionamos tus redes sociales.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vesta Marketing Inmobiliario | Alquiler temporal para profesores y funcionarios" },
-      { name: "description", content: "Marketing inmobiliario especializado en alquiler temporal para profesores y funcionarios. Ayudamos a inmobiliarias a captar al inquilino ideal, rápido y sin riesgos." },
-      { property: "og:title", content: "Vesta Marketing Inmobiliario | Alquiler temporal para profesores y funcionarios" },
-      { property: "og:description", content: "Marketing inmobiliario especializado en alquiler temporal para profesores y funcionarios. Ayudamos a inmobiliarias a captar al inquilino ideal, rápido y sin riesgos." },
+      { title: PAGE_TITLE },
+      { name: "description", content: PAGE_DESCRIPTION },
+      { property: "og:title", content: PAGE_TITLE },
+      { property: "og:description", content: PAGE_DESCRIPTION },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Vesta Marketing Inmobiliario | Alquiler temporal para profesores y funcionarios" },
-      { property: "og:site_name", content: "vesta-marketing-inmobiliario" },
-      { property: "og:url", content: "https://vestamarketinginmobiliario.com/" },
+      { name: "twitter:title", content: PAGE_TITLE },
+      { property: "og:site_name", content: "Vesta Marketing" },
+      { property: "og:url", content: "https://www.vestamarketinginmobiliario.com/" },
     ],
     links: [{ rel: "canonical", href: "https://www.vestamarketinginmobiliario.com/" }],
     scripts: [
@@ -34,14 +43,13 @@ export const Route = createFileRoute("/")({
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "vesta-marketing-inmobiliario",
-          alternateName: "vesta-marketing-inmobiliario",
-          url: "https://vesta-web-enhancer.lovable.app/",
+          name: "Vesta Marketing",
+          url: "https://www.vestamarketinginmobiliario.com/",
           publisher: {
             "@type": "Organization",
-            name: "vesta-marketing-inmobiliario",
-            url: "https://vesta-web-enhancer.lovable.app/",
-            logo: "https://vesta-web-enhancer.lovable.app/favicon.png",
+            name: "Vesta Marketing",
+            url: "https://www.vestamarketinginmobiliario.com/",
+            logo: "https://www.vestamarketinginmobiliario.com/favicon.png",
           },
         }),
       },
@@ -54,175 +62,169 @@ const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
 // URL base de Lovable: sirve las imágenes subidas mientras el dominio propio
 // no esté conectado como dominio personalizado (eso requiere plan Pro de Lovable).
 const LOVABLE_CDN = "https://vesta-web-enhancer.lovable.app";
+const LOGO_URL = `${LOVABLE_CDN}${logoAsset.url}`;
 const CALENDLY_EMBED = `${CALENDLY_URL}?hide_gdpr_banner=1&background_color=f7f3e9&text_color=25241f&primary_color=26317a`;
 const INSTAGRAM_URL =
   "https://www.instagram.com/vestamarketing_?igsi=MWpoaWwyZTFmY3hqYw%3D%3D&utm_source=qr";
 const INSTAGRAM_HANDLE = "@vestamarketing_";
-const STORAGE_KEY = "vesta-photos-v1";
-const INFO_KEY = "vesta-info-v1";
-const EXTRA_KEY = "vesta-extra-cards-v1";
+const CONTACT_EMAIL = "vestamarketinginmobiliario@gmail.com";
 
-type CardDef = {
-  id: string;
-  tag: string;
-  title: string;
-  text: string;
-  link: string;
-  photo: string;
-};
-
-type CardInfo = {
-  calle?: string;
-  piso?: string;
-  zona?: string;
-  provincia?: string;
-  precio?: string;
-  notas?: string;
-  enlace?: string;
-};
-
-const INFO_FIELDS: { key: keyof CardInfo; label: string }[] = [
-  { key: "calle", label: "Calle" },
-  { key: "piso", label: "Piso / puerta" },
-  { key: "zona", label: "Zona / barrio" },
-  { key: "provincia", label: "Provincia" },
-  { key: "precio", label: "Precio" },
-  { key: "notas", label: "Notas" },
-  { key: "enlace", label: "Enlace de la publicación" },
-];
-
-
-const PORTAL_NAMES: { match: string; name: string }[] = [
-  { match: "idealista", name: "Idealista" },
-  { match: "fotocasa", name: "Fotocasa" },
-  { match: "habitaclia", name: "Habitaclia" },
-  { match: "pisos.com", name: "Pisos.com" },
-  { match: "milanuncios", name: "Milanuncios" },
-  { match: "airbnb", name: "Airbnb" },
-  { match: "booking", name: "Booking" },
-  { match: "spotahome", name: "Spotahome" },
-  { match: "badi", name: "Badi" },
-  { match: "instagram", name: "Instagram" },
-  { match: "facebook", name: "Facebook" },
-  { match: "youtube", name: "YouTube" },
-  { match: "tiktok", name: "TikTok" },
-];
-
-function portalName(href: string): string {
-  let host = "";
-  try {
-    host = new URL(href).hostname.replace(/^www\./, "").toLowerCase();
-  } catch {
-    return "el anuncio";
-  }
-  const found = PORTAL_NAMES.find((p) => host.includes(p.match));
-  if (found) return found.name;
-  const base = host.split(".")[0] ?? host;
-  return base ? base.charAt(0).toUpperCase() + base.slice(1) : "el anuncio";
-}
-
-const CARDS: CardDef[] = [
+const SERVICES = [
   {
-    id: "c1",
-    tag: "Muy solicitado",
-    title: "Estudio para docente",
-    text: "Piso pequeño y funcional cerca de centros educativos, ideal para un curso académico completo.",
-    link: "Ver anuncio en Idealista",
-    photo: `${LOVABLE_CDN}${home1.url}`,
+    id: "webs",
+    icon: Globe,
+    title: "Páginas web",
+    text: "Webs modernas, rápidas y adaptadas al móvil, pensadas para que quien te visite acabe escribiéndote o reservando.",
+    items: ["Landing pages y webs corporativas", "Diseño a medida de tu marca", "SEO local para salir en Google"],
   },
   {
-    id: "c2",
-    tag: "Con estudio",
-    title: "Vivienda con zona de escritorio",
-    text: "Espacio diferenciado para preparar clases o estudiar, la primera objeción que resuelve un docente.",
-    link: "Ver anuncio en Fotocasa",
-    photo: `${LOVABLE_CDN}${home2.url}`,
+    id: "chatbots",
+    icon: Bot,
+    title: "Chatbots con IA",
+    text: "Un asistente que responde a tus clientes las 24 horas, resuelve dudas frecuentes y les lleva directamente a pedir cita.",
+    items: ["En tu web, WhatsApp o Instagram", "Entrenado con la información de tu negocio", "Deriva a reserva o a una persona"],
   },
   {
-    id: "c3",
-    tag: "Fibra certificada",
-    title: "Piso con internet de alta velocidad",
-    text: "Fibra verificada y router incluido, imprescindible para teletrabajo y videollamadas de oposición.",
-    link: "Ver anuncio en Idealista",
-    photo: `${LOVABLE_CDN}${home3.url}`,
+    id: "automatizaciones",
+    icon: Workflow,
+    title: "Automatizaciones con n8n",
+    text: "Conectamos tus herramientas para que las tareas repetitivas se hagan solas y no se te escape ningún cliente.",
+    items: ["Formularios que llegan a tu email o CRM", "Recordatorios y seguimientos automáticos", "Avisos e informes sin tocar nada"],
   },
   {
-    id: "c4",
-    tag: "Amueblado",
-    title: "Amueblado y equipado para mudanza ligera",
-    text: "Listo desde el primer día: menaje, textiles y electrodomésticos, sin inversión inicial del inquilino.",
-    link: "Ver anuncio en Fotocasa",
-    photo: `${LOVABLE_CDN}${home4.url}`,
+    id: "logos",
+    icon: PenTool,
+    title: "Logos e identidad de marca",
+    text: "Diseñamos un logo y una imagen coherente para que tu negocio se reconozca a primera vista, en la web y en redes.",
+    items: ["Logotipo y variantes", "Paleta de colores y tipografías", "Plantillas para redes sociales"],
   },
   {
-    id: "c5",
-    tag: "Buena conexión",
-    title: "Cerca de estación o parada principal",
-    text: "Para quien prioriza moverse rápido por la ciudad frente a vivir pegado al centro de trabajo.",
-    link: "Ver anuncio en Idealista",
-    photo: `${LOVABLE_CDN}${home5.url}`,
-  },
-  {
-    id: "c6",
-    tag: "6-9 meses",
-    title: "Temporada de curso académico",
-    text: "Contrato ajustado a calendario escolar, con condiciones de salida claras desde el inicio.",
-    link: "Ver anuncio en Idealista",
-    photo: `${LOVABLE_CDN}${home6.url}`,
-  },
-  {
-    id: "c7",
-    tag: "Barrio tranquilo",
-    title: "Zona residencial orientada al recién llegado",
-    text: "Ficha de barrio incluida para quien no conoce la ciudad: servicios, seguridad y ambiente.",
-    link: "Ver anuncio en Fotocasa",
-    photo: `${LOVABLE_CDN}${home7.url}`,
-  },
-  {
-    id: "c8",
-    tag: "Sin aval",
-    title: "Flexible con justificación de ingresos",
-    text: "Alternativas a la nómina tradicional para interinos y opositores recién aprobados.",
-    link: "Ver anuncio en Idealista",
-    photo: `${LOVABLE_CDN}${home8.url}`,
+    id: "redes",
+    icon: Megaphone,
+    title: "Marketing en redes sociales",
+    text: "Creamos y gestionamos tu contenido en Instagram, Facebook y TikTok, y lanzamos campañas para atraer clientes nuevos.",
+    items: ["Calendario y diseño de publicaciones", "Reels y contenido en vídeo", "Campañas de Meta Ads"],
   },
 ];
 
-const HERO_DEFAULT = `${LOVABLE_CDN}${heroDecorative.url}`;
+const PROCESS = [
+  ["Llamada de 30 minutos", "Nos cuentas tu negocio, qué necesitas y qué quieres conseguir. Gratis y sin compromiso."],
+  ["Propuesta clara", "Te enviamos por escrito qué vamos a crear, en qué plazo y por cuánto. Sin letra pequeña."],
+  ["Creación", "Diseñamos y montamos tu web, chatbot, automatización, logo o contenido, y te lo enseñamos antes de publicarlo."],
+  ["Lanzamiento y seguimiento", "Lo ponemos en marcha y lo mantenemos al día para que siga funcionando y dando resultados."],
+];
+
+const WORK_VALUES = [
+  ["Un solo equipo para todo", "Web, chatbot, automatizaciones, logo y redes en el mismo sitio. Sin ir de proveedor en proveedor."],
+  ["Sin tecnicismos", "Te lo explicamos todo con palabras normales. Tú decides, nosotros nos encargamos de la parte técnica."],
+  ["Plazos claros", "Desde el principio sabes cuándo vas a tener cada cosa."],
+  ["Lo ves antes de publicarlo", "Revisas cada entrega y la ajustamos contigo hasta que te convenza."],
+  ["Hecho para tu negocio", "Nada de plantillas genéricas: lo adaptamos a cómo trabajas y a tus clientes."],
+  ["Sin permanencia", "El mantenimiento mensual lo puedes dejar cuando quieras."],
+];
 
 const FAQS: [string, string][] = [
   [
-    "¿Qué pasa si me dan el destino definitivo pero el contrato expira en un año académico?",
-    "Explicamos con claridad en el anuncio y en la ficha del inmueble las condiciones de renovación y de salida anticipada, para que el inquilino sepa exactamente a qué atenerse desde el primer día.",
+    "Ya tengo Instagram, ¿de verdad necesito una página web?",
+    "Instagram es genial para que te descubran, pero la web es tu escaparate propio: aparece en Google, transmite confianza y es donde el cliente reserva o te escribe. Además, Instagram no es tuyo; tu web sí.",
   ],
   [
-    "¿Puedo rescindir el contrato antes de tiempo?",
-    "Redactamos cláusulas de desistimiento claras y visibles, alineadas con la Ley de Arrendamientos Urbanos, que evitan la incertidumbre que hoy frena la reserva.",
+    "¿Cuánto tarda en estar lista mi web?",
+    "Una landing sencilla suele estar en pocos días y una web completa en unas semanas. Antes de empezar te damos un plazo concreto por escrito.",
   ],
   [
-    "¿Cómo justifico ingresos si acabo de aprobar la oposición o soy interino?",
-    "Proponemos a la inmobiliaria alternativas de solvencia (nombramiento, resolución de plaza, avales específicos) que sustituyen a la nómina tradicional y se comunican de forma proactiva en el anuncio.",
+    "¿Qué es n8n y qué puedo automatizar en mi negocio?",
+    "n8n es una herramienta que conecta tus aplicaciones para que trabajen solas. Por ejemplo: que cada formulario llegue a tu email y a una hoja de cálculo, que tus clientes reciban un recordatorio antes de su cita o que te llegue un aviso cuando entra un cliente nuevo.",
   ],
   [
-    "¿Qué costes por adelantado debo asumir?",
-    "Detallamos fianza, mes de adelanto y gastos de gestión en la propia ficha, para que no aparezcan como sorpresa en la última conversación antes de firmar.",
+    "¿El chatbot puede responder por WhatsApp o Instagram?",
+    "Sí. Podemos ponerlo en tu web y conectarlo con WhatsApp o Instagram, para que tus clientes tengan respuesta al momento estés donde estés.",
   ],
   [
-    "¿Cómo elijo el barrio adecuado sin conocer la ciudad?",
-    "Añadimos una mini guía de zona a cada anuncio: seguridad, servicios cercanos y tiempo real hasta el centro de trabajo.",
+    "¿Y si el chatbot responde algo que no es correcto?",
+    "Lo entrenamos solo con la información de tu negocio y le marcamos límites: si no sabe algo, no se lo inventa, sino que deriva al cliente a hablar contigo o a reservar cita. Lo probamos contigo antes de publicarlo.",
   ],
   [
-    "¿Es mejor vivir cerca del centro de trabajo o con buenas conexiones?",
-    "Comparamos ambas opciones en la descripción del inmueble con tiempos reales de trayecto, dejando que el inquilino decida con datos y no con suposiciones.",
+    "¿Puedo contratar solo un servicio, por ejemplo un logo?",
+    "Sí. Los planes juntan varios servicios, pero también hacemos trabajos sueltos. Cuéntanoslo en una llamada y te preparamos un presupuesto.",
   ],
   [
-    "¿Qué tipo de internet llega a la vivienda?",
-    "Verificamos y destacamos la cobertura de fibra antes de publicar, un dato que hoy falta en la mayoría de anuncios de temporada.",
+    "¿La web y todo lo que creéis será mío?",
+    "Sí, lo que creamos para tu negocio es tuyo. Si quieres cambios, nos los pides, o te enseñamos a hacer los más sencillos tú mismo.",
   ],
   [
-    "¿El piso está amueblado y equipado para teletrabajar?",
-    "Incluimos un checklist visual de equipamiento (escritorio, silla, iluminación, electrodomésticos) directamente en las fotos del anuncio.",
+    "¿Mi negocio saldrá en Google?",
+    "Optimizamos tu web y tu ficha de Google Business para que aparezcas cuando te buscan en tu zona. Nadie puede garantizar honestamente el primer puesto, pero sí dejarlo todo bien hecho para que Google te muestre.",
   ],
+  [
+    "¿Qué tengo que daros yo para empezar?",
+    "Solo contarnos tu negocio. Si tienes fotos, logo o textos, los usamos; si no, te ayudamos a prepararlos. Te pedimos lo justo para no quitarte tiempo.",
+  ],
+  [
+    "¿Hay permanencia? ¿Qué incluye el mantenimiento?",
+    "No hay permanencia. El mantenimiento mensual mantiene tu web, chatbot y automatizaciones funcionando, incluye pequeños cambios y revisamos los resultados contigo. En los planes con redes, incluye también la gestión del contenido.",
+  ],
+  [
+    "¿Trabajáis solo con negocios de Almería?",
+    "Estamos en Almería, pero trabajamos en remoto con negocios de toda España por videollamada, email y WhatsApp.",
+  ],
+];
+
+const PLANS = [
+  {
+    tier: "Low ticket",
+    name: "Presencia esencial",
+    price: "299€",
+    sub: "más 49€/mes de mantenimiento",
+    featured: false,
+    items: [
+      "Diseño de logotipo",
+      "Landing page de una página adaptada al móvil",
+      "Ficha de Google Business optimizada",
+      "Perfil de Instagram y Facebook optimizado",
+      "Botón de reserva de citas o WhatsApp",
+    ],
+  },
+  {
+    tier: "Medium ticket",
+    name: "Negocio digital",
+    price: "699€",
+    sub: "más 149€/mes de mantenimiento",
+    featured: true,
+    items: [
+      "Logotipo y paleta de colores de marca",
+      "Web de hasta 5 páginas con SEO básico",
+      "Chatbot con IA para tu web",
+      "1 automatización con n8n (formularios, avisos o recordatorios)",
+      "Gestión de 1 red social con 8 publicaciones al mes",
+      "Informe mensual de resultados",
+    ],
+  },
+  {
+    tier: "High ticket",
+    name: "Crecimiento completo",
+    price: "1.499€",
+    sub: "más 299€/mes de mantenimiento",
+    featured: false,
+    items: [
+      "Identidad de marca completa (logo, colores, tipografías y plantillas)",
+      "Web a medida con SEO local",
+      "Chatbot con IA conectado a reservas o WhatsApp",
+      "Hasta 3 automatizaciones a medida con n8n",
+      "Gestión de redes sociales con reels incluidos",
+      "Campañas de Meta Ads (inversión en anuncios aparte)",
+      "Reunión mensual de análisis y mejora",
+    ],
+  },
+];
+
+const DIAG_QUESTIONS = [
+  { id: "web", label: "No tengo página web (o está anticuada)", service: "Página web" },
+  { id: "chat", label: "Pierdo clientes por no contestar mensajes a tiempo", service: "Chatbot con IA" },
+  { id: "auto", label: "Hago a mano tareas repetitivas (citas, presupuestos, avisos)", service: "Automatizaciones con n8n" },
+  { id: "logo", label: "Mi logo no representa bien mi negocio", service: "Logo e identidad de marca" },
+  { id: "redes", label: "No publico en redes con regularidad", service: "Marketing en redes sociales" },
+  { id: "google", label: "Mis clientes no me encuentran en Google", service: "SEO local y Google Business" },
 ];
 
 function CalendlyButton({
@@ -239,9 +241,11 @@ function CalendlyButton({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* RESEÑAS                                                             */
+/* ------------------------------------------------------------------ */
+
 const REVIEWS_KEY = "vesta-reviews-v1";
-const GOOGLE_LINK_KEY = "vesta-google-review-url-v1";
-const DEFAULT_GOOGLE_URL = "https://search.google.com/local/writereview?placeid=";
 
 type Review = {
   id: string;
@@ -254,30 +258,12 @@ type Review = {
 
 const DEFAULT_REVIEWS: Review[] = [
   {
-    id: "default-1",
-    name: "emilio",
-    role: "cliente",
-    stars: 5,
-    quote:
-      "buenas¡¡¡ contacte con ellos porque necesitaba alojamiento temporal y me asoro bastante bien , y me dijo un tiempo estimado en el que iba a tardar y asi fue ahora tengo alojamiento al lado de mi trabajo y estoy muy contento . muchisimas gracias y un saludo¡¡¡",
-    date: "",
-  },
-  {
     id: "default-2",
     name: "javier sanchez",
     role: "inmobiliaria",
     stars: 5,
     quote:
       "necesitaba para mi inmobiliaria , una pagina web contacte con ellos y me resolvieron el problema con justo lo que queria , gracias de verda . os lo recomiendo muchisimo ¡¡¡¡. otro dato que daria seria que son rapidos en resolverte el problema no suelen tardar muchos casi siempre te dicen lo que pueden tardar mas o menos con cada trabajo. un saludo¡¡",
-    date: "",
-  },
-  {
-    id: "default-3",
-    name: "laura",
-    role: "Almería",
-    stars: 5,
-    quote:
-      "Me ayudaron bastante en esta agencia , le contacte por su comparador le envie el mensaje con mi contacto , y me ayudaron a buscar alojamiento . muchas gracias ¡¡¡",
     date: "",
   },
 ];
@@ -295,8 +281,6 @@ function initialsOf(name: string) {
 
 function ReviewsSection() {
   const [localReviews, setLocalReviews] = useState<Review[]>([]);
-  const [googleUrl, setGoogleUrl] = useState(DEFAULT_GOOGLE_URL);
-  const [editingLink, setEditingLink] = useState(false);
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ name: "", role: "", stars: 5, quote: "" });
 
@@ -304,8 +288,6 @@ function ReviewsSection() {
     try {
       const raw = localStorage.getItem(REVIEWS_KEY);
       if (raw) setLocalReviews(JSON.parse(raw) as Review[]);
-      const link = localStorage.getItem(GOOGLE_LINK_KEY);
-      if (link) setGoogleUrl(link);
     } catch {
       /* ignore */
     }
@@ -336,7 +318,6 @@ function ReviewsSection() {
     setOpen(false);
   };
 
-  const googleReady = googleUrl.trim().length > DEFAULT_GOOGLE_URL.length;
   const allReviews = [...DEFAULT_REVIEWS, ...localReviews];
 
   return (
@@ -344,60 +325,14 @@ function ReviewsSection() {
       <div className="wrap">
         <div className="section-head">
           <span className="eyebrow">Reseñas</span>
-          <h2>Lo que dicen las inmobiliarias que ya trabajan con nosotros</h2>
+          <h2>Lo que dicen nuestros clientes</h2>
         </div>
 
         <div className="review-actions">
           <button type="button" className="btn btn-ghost on-dark" onClick={() => setOpen((v) => !v)}>
             {open ? "Cerrar formulario" : "Escribir una reseña"}
           </button>
-          {googleReady ? (
-            <a
-              href={googleUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-ghost on-dark"
-            >
-              Publicar reseña en Google
-            </a>
-          ) : null}
-          <button
-            type="button"
-            className="review-link-edit"
-            onClick={() => setEditingLink((v) => !v)}
-          >
-            {editingLink ? "Ocultar enlace de Google" : "Configurar enlace de Google"}
-          </button>
         </div>
-
-        {editingLink ? (
-          <div className="review-form" style={{ marginBottom: 24 }}>
-            <label>
-              Enlace de reseñas de Google (perfil de empresa)
-              <input
-                value={googleUrl}
-                onChange={(e) => setGoogleUrl(e.target.value)}
-                placeholder="https://g.page/r/…/review"
-              />
-            </label>
-            <div className="review-form-actions">
-              <button
-                type="button"
-                className="mini-btn"
-                onClick={() => {
-                  try {
-                    localStorage.setItem(GOOGLE_LINK_KEY, googleUrl);
-                  } catch {
-                    /* ignore */
-                  }
-                  setEditingLink(false);
-                }}
-              >
-                Guardar enlace
-              </button>
-            </div>
-          </div>
-        ) : null}
 
         {open ? (
           <form className="review-form" onSubmit={submit}>
@@ -411,11 +346,11 @@ function ReviewsSection() {
               />
             </label>
             <label>
-              Empresa o ciudad
+              Negocio o ciudad
               <input
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value })}
-                placeholder="Inmobiliaria, ciudad"
+                placeholder="Tu negocio, ciudad"
               />
             </label>
             <label>
@@ -445,218 +380,369 @@ function ReviewsSection() {
               <button type="submit" className="mini-btn">
                 Publicar reseña
               </button>
-              {googleReady ? (
-                <a
-                  className="mini-btn"
-                  href={googleUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Publicarla también en Google
-                </a>
-              ) : null}
             </div>
           </form>
         ) : null}
 
         <div className="reviews-grid">
-          {allReviews.length === 0 ? (
-            <div className="review-card">
-              <div className="review-stars">★★★★★</div>
-              <p className="quote">
-                Aún no hay reseñas publicadas. Sé el primero en compartir tu experiencia con Vesta.
-              </p>
+          {allReviews.map((r) => (
+            <div className="review-card" key={r.id}>
+              <div className="review-stars">{"★".repeat(r.stars)}</div>
+              <p className="quote">{r.quote}</p>
               <div className="review-who">
-                <div className="review-avatar">VS</div>
+                <div className="review-avatar">{initialsOf(r.name)}</div>
                 <div>
-                  <div className="name">Vesta</div>
-                  <div className="role">Marketing inmobiliario</div>
+                  <div className="name">{r.name}</div>
+                  <div className="role">{r.role || r.date}</div>
                 </div>
               </div>
+              {!r.id.startsWith("default-") && (
+                <button
+                  type="button"
+                  className="review-delete"
+                  onClick={() => persist(localReviews.filter((x) => x.id !== r.id))}
+                >
+                  Eliminar
+                </button>
+              )}
             </div>
-          ) : (
-            allReviews.map((r) => (
-              <div className="review-card" key={r.id}>
-                <div className="review-stars">{"★".repeat(r.stars)}</div>
-                <p className="quote">{r.quote}</p>
-                <div className="review-who">
-                  <div className="review-avatar">{initialsOf(r.name)}</div>
-                  <div>
-                    <div className="name">{r.name}</div>
-                    <div className="role">{r.role || r.date}</div>
-                  </div>
-                </div>
-                {!r.id.startsWith("default-") && (
-                  <button
-                    type="button"
-                    className="review-delete"
-                    onClick={() => persist(localReviews.filter((x) => x.id !== r.id))}
-                  >
-                    Eliminar
-                  </button>
-                )}
-              </div>
-            ))
-          )}
+          ))}
         </div>
-
-        <p className="reviews-note">
-          Las reseñas escritas aquí se guardan en este navegador. Para que aparezcan en tu ficha de
-          Google, pega tu enlace de reseñas de Google y usa el botón «Publicar reseña en Google».
-        </p>
       </div>
     </section>
   );
 }
 
-function ComparadorSection() {
-  const [zona, setZona] = useState("");
-  const [presupuesto, setPresupuesto] = useState("");
-  const [habitaciones, setHabitaciones] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [contacto, setContacto] = useState("");
-  const [enviado, setEnviado] = useState(false);
+/* ------------------------------------------------------------------ */
+/* HERO: composición animada                                           */
+/* ------------------------------------------------------------------ */
 
-  const puedeEnviar = Boolean(zona && presupuesto && habitaciones && nombre.trim() && contacto.trim());
-
+function HeroVisual() {
   return (
-    <section className="comparador-section" aria-label="Encuentra tu vivienda">
+    <div className="hv" aria-hidden="true">
+      <div className="hv-browser float-a">
+        <div className="hv-bar">
+          <i />
+          <i />
+          <i />
+          <span>tunegocio.com</span>
+        </div>
+        <div className="hv-page">
+          <div className="hv-logo">
+            <img src={LOGO_URL} alt="" />
+            <b />
+          </div>
+          <div className="hv-line w80" />
+          <div className="hv-line w60" />
+          <div className="hv-btn">Reservar cita</div>
+          <div className="hv-cards">
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </div>
+
+      <div className="hv-chat float-b">
+        <div className="hv-chat-head">
+          <Bot size={16} /> Asistente IA · en línea
+        </div>
+        <p className="in">¿Tenéis cita para el sábado?</p>
+        <p className="out">¡Sí! Quedan huecos a las 11:00 y a las 12:30. ¿Te reservo una?</p>
+      </div>
+
+      <div className="hv-flow float-c">
+        <span className="node">Formulario</span>
+        <span className="wire">
+          <i />
+        </span>
+        <span className="node gold">n8n</span>
+        <span className="wire">
+          <i />
+        </span>
+        <span className="node">Email + CRM</span>
+      </div>
+
+      <div className="hv-social float-b">
+        <div className="hv-social-head">
+          <Instagram size={14} /> tunegocio
+        </div>
+        <div className="hv-grid">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* DEMOS EN BUCLE (tipo gif)                                           */
+/* ------------------------------------------------------------------ */
+
+function DemoWeb() {
+  return (
+    <div className="demo-screen dw">
+      <div className="hv-bar">
+        <i />
+        <i />
+        <i />
+        <span>cafelumbre.es</span>
+      </div>
+      <div className="dw-page">
+        <div className="dw-nav">
+          <b className="dw-brand">Café Lumbre</b>
+          <span />
+          <span />
+          <span />
+        </div>
+        <div className="dw-hero">
+          <div className="dw-copy">
+            <p className="dw-title">
+              <span>Desayunos de verdad.</span>
+            </p>
+            <div className="dw-sub" />
+            <div className="dw-sub short" />
+            <div className="dw-cta">Reservar mesa</div>
+          </div>
+          <div className="dw-img" />
+        </div>
+        <div className="dw-row">
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
+      <div className="dw-cursor" />
+      <div className="dw-badge">
+        <Check size={13} /> Publicada
+      </div>
+    </div>
+  );
+}
+
+function DemoFlow() {
+  return (
+    <div className="demo-screen df">
+      <div className="df-grid">
+        <div className="df-node n1">
+          <Globe size={16} />
+          <span>Formulario web</span>
+        </div>
+        <div className="df-node n2 gold">
+          <Sparkles size={16} />
+          <span>IA clasifica</span>
+        </div>
+        <div className="df-node n3">
+          <Sheet size={16} />
+          <span>Google Sheets</span>
+        </div>
+        <div className="df-node n4">
+          <Mail size={16} />
+          <span>Email al cliente</span>
+        </div>
+        <div className="df-node n5">
+          <CalendarCheck size={16} />
+          <span>Cita en agenda</span>
+        </div>
+        <svg className="df-wires" viewBox="0 0 300 200" preserveAspectRatio="none">
+          <path id="w1" d="M70 100 L130 100" />
+          <path id="w2" d="M170 100 C200 100 200 40 230 40" />
+          <path id="w3" d="M170 100 L230 100" />
+          <path id="w4" d="M170 100 C200 100 200 160 230 160" />
+        </svg>
+        <span className="df-dot d1" />
+        <span className="df-dot d2" />
+        <span className="df-dot d3" />
+        <span className="df-dot d4" />
+      </div>
+      <div className="df-log">
+        <span>
+          <Zap size={12} /> Ejecución automática
+        </span>
+        <b className="df-ok">✓ Completado</b>
+      </div>
+    </div>
+  );
+}
+
+function DemoChat() {
+  return (
+    <div className="demo-screen dc">
+      <div className="dc-head">
+        <span className="dc-avatar">
+          <Bot size={15} />
+        </span>
+        <div>
+          <strong>Peluquería Aura</strong>
+          <small>Asistente IA · responde al momento</small>
+        </div>
+      </div>
+      <div className="dc-body">
+        <p className="dc-msg in m1">Hola, ¿tenéis hueco mañana para mechas?</p>
+        <p className="dc-typing t1">
+          <i />
+          <i />
+          <i />
+        </p>
+        <p className="dc-msg out m2">¡Hola! Sí 😊 Mañana tenemos libre a las 10:30 y a las 17:00. ¿Cuál prefieres?</p>
+        <p className="dc-msg in m3">A las 17:00</p>
+        <p className="dc-typing t2">
+          <i />
+          <i />
+          <i />
+        </p>
+        <p className="dc-msg out m4">¡Hecho! Te he reservado mañana a las 17:00. Te enviaré un recordatorio ✨</p>
+      </div>
+    </div>
+  );
+}
+
+function DemoBrand() {
+  return (
+    <div className="demo-screen db">
+      <svg className="db-logo" viewBox="0 0 120 120" aria-hidden="true">
+        <circle cx="60" cy="60" r="48" />
+        <path d="M38 40 L60 86 L82 40" />
+        <path className="leaf" d="M30 74 C20 60 22 46 32 36" />
+        <path className="leaf" d="M90 74 C100 60 98 46 88 36" />
+      </svg>
+      <p className="db-name">Marca Nova</p>
+      <div className="db-swatches">
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+      <div className="db-type">
+        <b>Aa</b>
+        <span>Playfair · Jost</span>
+      </div>
+    </div>
+  );
+}
+
+const DEMOS = [
+  { id: "web", label: "Web", title: "Una web creándose para una cafetería", Comp: DemoWeb },
+  { id: "flow", label: "Automatización", title: "Un flujo de n8n trabajando solo", Comp: DemoFlow },
+  { id: "chat", label: "Chatbot", title: "Un chatbot reservando una cita", Comp: DemoChat },
+  { id: "brand", label: "Marca", title: "Un logo y su identidad naciendo", Comp: DemoBrand },
+];
+
+function DemosSection() {
+  return (
+    <section className="demos" id="demos">
+      <div className="demos-glow" aria-hidden="true" />
       <div className="wrap">
         <div className="section-head">
-          <h2>Cuéntanos qué buscas</h2>
+          <span className="eyebrow on-dark">Míralo en acción</span>
+          <h2>Así se ve lo que creamos para tu negocio</h2>
           <p>
-            Indícanos la zona y el presupuesto que manejas y te contactamos con las opciones
-            disponibles, o reserva directamente una llamada.
+            Ejemplos ilustrativos de negocios inventados, para que veas en segundos cómo funciona
+            cada servicio.
           </p>
         </div>
+        <div className="demos-grid">
+          {DEMOS.map(({ id, label, title, Comp }) => (
+            <figure className="demo" key={id}>
+              <Comp />
+              <figcaption>
+                <span className="demo-tag">{label}</span>
+                {title}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+        <div className="demos-cta">
+          <CalendlyButton className="btn btn-light">
+            Quiero algo así para mi negocio <ArrowRight size={16} />
+          </CalendlyButton>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-        <div className="comparador-box">
-          {enviado ? (
-            <div className="comparador-done">
-              <h3>¡Solicitud preparada!</h3>
-              <p>
-                Se ha abierto tu programa de correo con tu solicitud lista para enviar a Vesta.
-                Si no se ha abierto automáticamente, escríbenos a{" "}
-                <a href="mailto:vestamarketinginmobiliario@gmail.com">
-                  vestamarketinginmobiliario@gmail.com
-                </a>
-                .
-              </p>
-              <p>¿Prefieres ir más rápido?</p>
-              <CalendlyButton className="btn btn-primary">Reservar llamada directa</CalendlyButton>
-            </div>
+/* ------------------------------------------------------------------ */
+/* DIAGNÓSTICO GRATUITO (captación)                                    */
+/* ------------------------------------------------------------------ */
+
+function DiagnosticoSection() {
+  const [checked, setChecked] = useState<Record<string, boolean>>({});
+  const selected = DIAG_QUESTIONS.filter((q) => checked[q.id]);
+  const n = selected.length;
+  const plan = n === 0 ? null : n <= 2 ? PLANS[0] : n <= 4 ? PLANS[1] : PLANS[2];
+
+  return (
+    <section id="diagnostico" className="diag-section">
+      <div className="wrap diag">
+        <div className="diag-copy">
+          <span className="eyebrow">Diagnóstico gratis · 30 segundos</span>
+          <h2>¿Qué le falta a tu negocio para conseguir más clientes?</h2>
+          <p>
+            Marca lo que te pasa y te decimos por dónde empezar. Después, en una llamada gratuita,
+            te lo explicamos con ejemplos para tu sector.
+          </p>
+          <div className="diag-options">
+            {DIAG_QUESTIONS.map((q) => (
+              <label key={q.id} className={`diag-opt${checked[q.id] ? " on" : ""}`}>
+                <input
+                  type="checkbox"
+                  checked={Boolean(checked[q.id])}
+                  onChange={(e) => setChecked({ ...checked, [q.id]: e.target.checked })}
+                />
+                <span className="diag-box">
+                  <Check size={14} />
+                </span>
+                {q.label}
+              </label>
+            ))}
+          </div>
+        </div>
+        <div className="diag-result" aria-live="polite">
+          {plan ? (
+            <>
+              <span className="diag-kicker">Tu recomendación</span>
+              <h3>
+                Plan <em>{plan.name}</em>
+              </h3>
+              <p className="diag-tier">{plan.tier}</p>
+              <p>Prioridades para tu negocio:</p>
+              <ul>
+                {selected.map((q) => (
+                  <li key={q.id}>{q.service}</li>
+                ))}
+              </ul>
+              <CalendlyButton className="btn btn-primary">
+                Reservar mi llamada gratuita <ArrowRight size={16} />
+              </CalendlyButton>
+            </>
           ) : (
-            <form
-              className="comparador-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!puedeEnviar) return;
-                const asunto = `Nueva solicitud de vivienda - ${zona}`;
-                const cuerpo = [
-                  `Zona de interes: ${zona}`,
-                  `Presupuesto: ${presupuesto}`,
-                  `Habitaciones: ${habitaciones}`,
-                  `Nombre: ${nombre}`,
-                  `Contacto (telefono/email): ${contacto}`,
-                ].join("\n");
-                window.location.href = `mailto:vestamarketinginmobiliario@gmail.com?subject=${encodeURIComponent(
-                  asunto,
-                )}&body=${encodeURIComponent(cuerpo)}`;
-                setEnviado(true);
-              }}
-            >
-              <div className="comparador-grid">
-                <label>
-                  Zona
-                  <select value={zona} onChange={(e) => setZona(e.target.value)} required>
-                    <option value="" disabled>
-                      Selecciona una zona
-                    </option>
-                    <option value="Almería capital">Almería capital</option>
-                    <option value="Aguadulce">Aguadulce</option>
-                    <option value="Roquetas de Mar">Roquetas de Mar</option>
-                  </select>
-                </label>
-
-                <label>
-                  Presupuesto mensual
-                  <select
-                    value={presupuesto}
-                    onChange={(e) => setPresupuesto(e.target.value)}
-                    required
-                  >
-                    <option value="" disabled>
-                      Selecciona un rango
-                    </option>
-                    <option value="500-600€">500 € - 600 €</option>
-                    <option value="600-900€">600 € - 900 €</option>
-                    <option value="900-1200€">900 € - 1.200 €</option>
-                    <option value="Más de 1.200€">Más de 1.200 €</option>
-                  </select>
-                </label>
-
-                <label>
-                        Número de habitaciones
-                        <select
-                          value={habitaciones}
-                          onChange={(e) => setHabitaciones(e.target.value)}
-                          required
-                        >
-                          <option value="" disabled>
-                            Selecciona una opción
-                          </option>
-                          <option value="1 habitación">1 habitación</option>
-                          <option value="2 habitaciones">2 habitaciones</option>
-                          <option value="3 habitaciones">3 habitaciones</option>
-                          <option value="4 o más habitaciones">4 o más habitaciones</option>
-                        </select>
-                      </label>
-
-                <label>
-                  Nombre
-                  <input
-                    type="text"
-                    value={nombre}
-                    onChange={(e) => setNombre(e.target.value)}
-                    placeholder="Tu nombre"
-                    required
-                  />
-                </label>
-
-                <label>
-                  Teléfono o email
-                  <input
-                    type="text"
-                    value={contacto}
-                    onChange={(e) => setContacto(e.target.value)}
-                    placeholder="600 000 000 o tu@email.com"
-                    required
-                  />
-                </label>
+            <>
+              <span className="diag-kicker">Tu recomendación</span>
+              <h3>Marca al menos una opción</h3>
+              <p>Te diremos qué servicios te harían ganar más clientes y qué plan encaja contigo.</p>
+              <div className="diag-meter">
+                <span />
               </div>
-
-              <div className="comparador-actions">
-                <button type="submit" className="btn btn-primary" disabled={!puedeEnviar}>
-                  Enviar solicitud
-                </button>
-                <span className="comparador-or">o</span>
-                <CalendlyButton className="btn btn-ghost">Reservar llamada directa</CalendlyButton>
-              </div>
-            </form>
+            </>
           )}
         </div>
       </div>
     </section>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* PÁGINA                                                              */
+/* ------------------------------------------------------------------ */
+
 function Index() {
-  const [overrides, setOverrides] = useState<Record<string, string | null>>({});
-  const [infos, setInfos] = useState<Record<string, CardInfo>>({});
-  const [extraCards, setExtraCards] = useState<CardDef[]>([]);
-  const [managing, setManaging] = useState(false);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const fileInputs = useRef<Record<string, HTMLInputElement | null>>({});
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   useEffect(() => {
     const host = window.location.hostname;
@@ -667,202 +753,23 @@ function Index() {
       meta.setAttribute("content", "noindex, nofollow");
       document.head.appendChild(meta);
       window.location.replace("https://vestamarketinginmobiliario.com/");
-      return;
-    }
-    // En vestamarketinginmobiliario.com o www.vestamarketinginmobiliario.com
-    // no se aplica nada: la página carga igual que ahora.
-  }, []);
-
-  useEffect(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY);
-      if (raw) setOverrides(JSON.parse(raw));
-      const rawInfo = window.localStorage.getItem(INFO_KEY);
-      if (rawInfo) setInfos(JSON.parse(rawInfo));
-      const rawExtra = window.localStorage.getItem(EXTRA_KEY);
-      if (rawExtra) setExtraCards(JSON.parse(rawExtra));
-    } catch {
-      /* ignore */
     }
   }, []);
-
-  const save = (key: string, value: unknown) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-    } catch {
-      window.alert("No se pudo guardar: el navegador se ha quedado sin espacio.");
-    }
-  };
-
-  const persist = useCallback((next: Record<string, string | null>) => {
-    setOverrides(next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-    } catch {
-      window.alert("No se pudo guardar la foto: el navegador se ha quedado sin espacio.");
-    }
-  }, []);
-
-  const setField = (id: string, key: keyof CardInfo, value: string) => {
-    const next = { ...infos, [id]: { ...(infos[id] ?? {}), [key]: value } };
-    setInfos(next);
-    save(INFO_KEY, next);
-  };
-
-  const clearInfo = (id: string) => {
-    const next = { ...infos };
-    delete next[id];
-    setInfos(next);
-    save(INFO_KEY, next);
-  };
-
-  const addCard = () => {
-    const card: CardDef = {
-      id: `x${Date.now()}`,
-      tag: "Nueva vivienda",
-      title: "Vivienda sin título",
-      text: "Añade la información de esta vivienda desde el modo de edición.",
-      link: "Ver anuncio",
-      photo: "",
-    };
-    const next = [...extraCards, card];
-    setExtraCards(next);
-    save(EXTRA_KEY, next);
-    setManaging(true);
-  };
-
-  const deleteCard = (id: string) => {
-    const next = extraCards.filter((c) => c.id !== id);
-    setExtraCards(next);
-    save(EXTRA_KEY, next);
-    clearInfo(id);
-  };
-
-  const photoFor = (id: string, fallback: string) =>
-    id in overrides ? overrides[id] : fallback;
-
-  const onPick = (id: string, file?: File | null) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => persist({ ...overrides, [id]: String(reader.result) });
-    reader.readAsDataURL(file);
-  };
-
-  const removePhoto = (id: string) => persist({ ...overrides, [id]: null });
-
-  const restoreAll = () => {
-    persist({});
-    setInfos({});
-    save(INFO_KEY, {});
-    setExtraCards([]);
-    save(EXTRA_KEY, []);
-  };
-
-  const scrollBy = (dir: number) => {
-    trackRef.current?.scrollBy({ left: dir * 322, behavior: "smooth" });
-  };
-
-  const PhotoTools = ({ id }: { id: string }) => (
-    <div className="photo-tools">
-      <input
-        type="file"
-        accept="image/*"
-        hidden
-        ref={(el) => {
-          fileInputs.current[id] = el;
-        }}
-        onChange={(e) => {
-          onPick(id, e.target.files?.[0]);
-          e.target.value = "";
-        }}
-      />
-      <button type="button" className="mini-btn" onClick={() => fileInputs.current[id]?.click()}>
-        Adjuntar foto
-      </button>
-      <button type="button" className="mini-btn danger" onClick={() => removePhoto(id)}>
-        Quitar
-      </button>
-    </div>
-  );
-
-  const renderInfoView = (id: string) => {
-    const info = infos[id];
-    if (!info) return null;
-    const rows = INFO_FIELDS.filter((f) => (info[f.key] ?? "").trim() !== "");
-    if (rows.length === 0) return null;
-    return (
-      <ul className="p-card-info">
-        {rows.map((f) => {
-          const value = (info[f.key] ?? "").trim();
-          const isLink = f.key === "enlace";
-          const href = /^https?:\/\//i.test(value) ? value : `https://${value}`;
-          return (
-            <li key={f.key}>
-              <span>{f.label}</span>
-              {isLink ? (
-                <a
-                  className="p-card-info-link"
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ver en {portalName(href)}
-                </a>
-              ) : (
-                <strong>{value}</strong>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    );
-  };
-
-  const renderInfoForm = (id: string, removable: boolean) => (
-    <div className="p-card-form">
-      {INFO_FIELDS.map((f) => (
-        <label key={f.key}>
-          {f.label}
-          <input
-            type="text"
-            value={infos[id]?.[f.key] ?? ""}
-            placeholder={f.label}
-            maxLength={120}
-            onChange={(e) => setField(id, f.key, e.target.value)}
-          />
-        </label>
-      ))}
-      <div className="p-card-form-actions">
-        <button type="button" className="mini-btn danger" onClick={() => clearInfo(id)}>
-          Quitar información
-        </button>
-        {removable && (
-          <button type="button" className="mini-btn danger" onClick={() => deleteCard(id)}>
-            Eliminar vivienda
-          </button>
-        )}
-      </div>
-    </div>
-  );
-
-  const allCards = [...CARDS, ...extraCards];
-
-  const heroPhoto = photoFor("hero", HERO_DEFAULT);
-
 
   return (
     <>
       <header>
         <div className="nav">
           <a href="#top" className="nav-brand">
-            <img src={`${LOVABLE_CDN}${logoAsset.url}`} alt="Logotipo de Vesta" />
+            <img src={LOGO_URL} alt="Logotipo de Vesta" />
             <span>Vesta</span>
           </a>
           <nav className="nav-links">
             <a href="#servicios">Servicios</a>
-            <a href="#avatar">Inquilino ideal</a>
+            <a href="#demos">Demos</a>
+            <a href="#trabajar">Cómo trabajamos</a>
             <a href="#precios">Precios</a>
-            <a href="#resenas">Reseñas</a>
+            <a href="#faq">Preguntas</a>
           </nav>
           <div className="nav-cta">
             <a
@@ -882,370 +789,232 @@ function Index() {
 
       <div id="top" />
 
-      <section className="hero" style={{ paddingBottom: 0 }}>
+      <section className="hero">
+        <div className="hero-blobs" aria-hidden="true">
+          <span className="b1" />
+          <span className="b2" />
+          <span className="b3" />
+        </div>
         <div className="wrap hero-grid">
           <div className="hero-copy">
-            <span className="eyebrow">Agencia de marketing inmobiliario</span>
+            <span className="hero-pill">
+              <Sparkles size={14} /> Agencia de marketing digital · IA y automatización
+            </span>
             <h1>
-              Llenamos tus alquileres temporales con <em>el inquilino correcto</em>, antes de que se
-              anuncien en otro portal.
+              Tu negocio, <em>visible</em>, <em>automatizado</em> y vendiendo las 24 horas.
             </h1>
             <p className="lead">
-              Trabajamos con inmobiliarias que gestionan alquileres de temporada para profesores,
-              funcionarios y personal en movilidad. Optimizamos cada anuncio, resolvemos las
-              objeciones de este inquilino y protegemos jurídicamente al propietario.
+              Creamos páginas web, chatbots con inteligencia artificial, automatizaciones con n8n,
+              logos y marketing en redes sociales. Todo en un mismo equipo, para que tú te dediques a
+              tu negocio.
             </p>
             <div className="hero-ctas">
               <CalendlyButton className="btn btn-primary">
-                Reservar auditoría gratuita
+                Reservar llamada gratuita <ArrowRight size={16} />
               </CalendlyButton>
-              <a href="#servicios" className="btn btn-ghost">
-                Ver servicios para inmobiliarias
+              <a href="#diagnostico" className="btn btn-ghost">
+                Diagnóstico gratis
               </a>
             </div>
-            <p className="hero-note">
-              Sin permanencia · Informe entregado en 48h · Enfocado en el nicho de movilidad
-              funcionarial y docente
-            </p>
+            <ul className="hero-checks">
+              <li>
+                <Check size={15} /> Sin permanencia
+              </li>
+              <li>
+                <Check size={15} /> Propuesta clara antes de empezar
+              </li>
+              <li>
+                <Check size={15} /> Desde Almería para toda España
+              </li>
+            </ul>
           </div>
           <div className="hero-photo">
-            <div className="hero-photo-frame">
-              {heroPhoto ? (
-                <img src={heroPhoto} alt="Vivienda preparada para alquiler de temporada" />
-              ) : (
-                <div
-                  className="p-card-photo-empty"
-                  style={{
-                    height: 560,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background: "var(--sage-pale)",
-                  }}
-                >
-                  Sin foto
-                </div>
-              )}
-            </div>
-            {managing && <PhotoTools id="hero" />}
-            <div className="hero-photo-tag">
-              <strong>Nicho especializado</strong>Traducimos lo que un inquilino en movilidad
-              necesita saber antes de firmar.
-            </div>
+            <HeroVisual />
           </div>
         </div>
-        <div className="hero-bottom-space" />
       </section>
 
       <div className="strip">
         <div className="strip-track">
           {Array.from({ length: 2 }).map((_, i) => (
             <span key={i} style={{ display: "inline-flex", gap: 56 }}>
-              <span>Alquiler de temporada</span>
-              <span>·</span>
-              <span>Profesores en comisión de servicio</span>
-              <span>·</span>
-              <span>Funcionarios interinos</span>
-              <span>·</span>
-              <span>Personal desplazado</span>
-              <span>·</span>
-              <span>Ley LAU</span>
-              <span>·</span>
-              <span>Idealista</span>
-              <span>·</span>
-              <span>Fotocasa</span>
-              <span>·</span>
+              <span>Páginas web</span>
+              <span>✦</span>
+              <span>Chatbots con IA</span>
+              <span>✦</span>
+              <span>Automatizaciones n8n</span>
+              <span>✦</span>
+              <span>Logos e identidad</span>
+              <span>✦</span>
+              <span>Redes sociales</span>
+              <span>✦</span>
+              <span>Meta Ads</span>
+              <span>✦</span>
+              <span>SEO local</span>
+              <span>✦</span>
             </span>
           ))}
         </div>
       </div>
-      <ComparadorSection />
-      
-      <section className="carousel-section">
+
+      <section id="servicios">
         <div className="wrap">
-          <div className="carousel-head">
-            <h2>Tipos de vivienda que posicionamos para este perfil</h2>
-            <div className="carousel-arrows">
-              <button className="arrow-btn" aria-label="Anterior" onClick={() => scrollBy(-1)}>
-                ←
-              </button>
-              <button className="arrow-btn" aria-label="Siguiente" onClick={() => scrollBy(1)}>
-                →
-              </button>
-            </div>
+          <div className="section-head">
+            <span className="eyebrow">Qué creamos</span>
+            <h2>
+              Cinco servicios para que tu negocio se vea, responda y <em>venda solo</em>.
+            </h2>
+            <p>
+              Puedes contratar uno suelto o combinarlos en un plan. Todos están pensados para
+              negocios que quieren más clientes sin perder horas delante del ordenador.
+            </p>
           </div>
-          <div className="manage-bar">
-            <button
-              type="button"
-              className="btn btn-ghost"
-              onClick={() => setManaging((v) => !v)}
-              style={{ padding: "10px 20px" }}
-            >
-              {managing ? "Terminar edición" : "Gestionar viviendas (fotos e información)"}
-            </button>
-            {managing && (
-              <>
-                <button type="button" className="mini-btn" onClick={addCard}>
-                  Añadir vivienda
-                </button>
-                <button type="button" className="mini-btn" onClick={restoreAll}>
-                  Restaurar todo
-                </button>
-              </>
-            )}
-            <span className="hint">
-              Puedes adjuntar o quitar la foto y editar la información (calle, piso, zona,
-              provincia, precio…) de cada vivienda; los cambios se guardan en este navegador.
-            </span>
-          </div>
-        </div>
-        <div className="carousel-viewport">
-          <div className="carousel-track" ref={trackRef}>
-            {allCards.map((card) => {
-              const photo = photoFor(card.id, card.photo);
-              const isExtra = card.id.startsWith("x");
+          <div className="services">
+            {SERVICES.map((s) => {
+              const Icon = s.icon;
               return (
-                <div className="p-card" key={card.id}>
-                  <div className="p-card-top">
-                    <span className="tag">{card.tag}</span>
-                    {photo ? (
-                      <img src={photo} alt={card.title} loading="lazy" />
-                    ) : (
-                      <span className="p-card-photo-empty">Sin foto</span>
-                    )}
-                  </div>
-                  {managing && <PhotoTools id={card.id} />}
-                  <div className="p-card-body">
-                    <h3>{card.title}</h3>
-                    <p>{card.text}</p>
-                    {renderInfoView(card.id)}
-                    {managing && renderInfoForm(card.id, isExtra)}
-                    <div className="p-card-link">
-                      {card.link} <span>↗</span>
-                    </div>
-                  </div>
-                </div>
+                <article className="service" key={s.id} id={s.id}>
+                  <span className="service-icon">
+                    <Icon size={22} />
+                  </span>
+                  <h3>{s.title}</h3>
+                  <p>{s.text}</p>
+                  <ul>
+                    {s.items.map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ul>
+                </article>
               );
             })}
+            <article className="service service-cta">
+              <h3>¿No sabes por dónde empezar?</h3>
+              <p>En una llamada de 30 minutos vemos qué te conviene ahora y qué puede esperar.</p>
+              <CalendlyButton className="btn btn-light">
+                Hablemos <ArrowRight size={16} />
+              </CalendlyButton>
+            </article>
           </div>
         </div>
       </section>
 
-      <section className="bg-sage" id="servicios">
+      <DemosSection />
+
+      <section id="trabajar" className="bg-sage">
         <div className="wrap">
           <div className="section-head">
-            <span className="eyebrow">Qué hacemos</span>
+            <span className="eyebrow">¿Cómo es trabajar con nosotros?</span>
             <h2>
-              Marketing inmobiliario centrado en un solo nicho: la movilidad funcionarial y docente.
+              Fácil, cercano y <em>sin tecnicismos</em>.
             </h2>
-            <p>
-              No competimos por cualquier alquiler. Ayudamos a inmobiliarias a captar y convertir al
-              inquilino que se muda por trabajo, no por elección, y que necesita decidir rápido y a
-              distancia.
-            </p>
+            <p>Así es el camino desde la primera llamada hasta tener todo funcionando.</p>
           </div>
-          <div className="pillars">
-            <div className="pillar">
-              <span className="num">I.</span>
-              <h3>Captación de inmobiliarias</h3>
-              <p>
-                Buscamos y activamos inmobiliarias que ya gestionan viviendas para alquileres
-                temporales y necesitan llenar su cartera con inquilinos de perfil estable.
-              </p>
-            </div>
-            <div className="pillar">
-              <span className="num">II.</span>
-              <h3>Optimización del anuncio</h3>
-              <p>
-                Revisamos cada publicación en Idealista y Fotocasa desde la mirada de un profesor o
-                funcionario que llega sin conocer la ciudad.
-              </p>
-            </div>
-            <div className="pillar">
-              <span className="num">III.</span>
-              <h3>Seguridad jurídica para el propietario</h3>
-              <p>
-                Formamos a la inmobiliaria y al casero en la Ley de Arrendamientos Urbanos aplicada
-                al alquiler de temporada, para alquilar sin miedo.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="avatar">
-        <div className="wrap avatar-grid">
-          <div className="avatar-card">
-            <span className="eyebrow on-dark">El inquilino que sabemos convertir</span>
-            <p className="role">El profesor o funcionario en movilidad</p>
-            <p style={{ fontSize: 14, color: "#D7DCC7" }}>
-              Ha aprobado una oposición, ha obtenido plaza o comisión de servicio en una ciudad que
-              no conoce. Decide rápido, a distancia, y necesita que alguien le resuelva las dudas
-              antes de preguntar.
-            </p>
-            <ul>
-              <li>Busca certeza sobre plazos y salida del contrato</li>
-              <li>Necesita justificar solvencia sin nómina consolidada</li>
-              <li>Prioriza conexión a internet y espacio de trabajo</li>
-              <li>Desconoce la ciudad y pide orientación de barrio</li>
-            </ul>
-          </div>
-          <div className="avatar-objections">
-            <span className="eyebrow">Objeciones frecuentes</span>
-            <h2 style={{ fontSize: 30, color: "var(--navy-deep)", marginBottom: 8 }}>
-              Las preguntas que hay que responder antes de que las hagan
-            </h2>
-            <p style={{ color: "var(--ink-soft)", fontSize: 14.8, marginBottom: 10 }}>
-              Convertimos cada objeción en un contenido del anuncio, no en una llamada perdida.
-            </p>
-            <div className="accordion">
-              {FAQS.map(([q, a], i) => (
-                <div className={`accordion-item${openFaq === i ? " open" : ""}`} key={q}>
-                  <button
-                    className="accordion-q"
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  >
-                    {q}
-                    <span className="plus">+</span>
-                  </button>
-                  <div
-                    className="accordion-a"
-                    style={{ maxHeight: openFaq === i ? 400 : 0 }}
-                  >
-                    <p>{a}</p>
-                  </div>
+          <ol className="timeline">
+            {PROCESS.map(([t, d], i) => (
+              <li key={t}>
+                <span className="tl-num">0{i + 1}</span>
+                <h3>{t}</h3>
+                <p>{d}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="values">
+            {WORK_VALUES.map(([t, d]) => (
+              <div className="value" key={t}>
+                <span className="value-check">
+                  <Check size={16} />
+                </span>
+                <div>
+                  <strong>{t}</strong>
+                  <p>{d}</p>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-sage" style={{ paddingTop: 0 }}>
-        <div className="wrap">
-          <div className="section-head">
-            <span className="eyebrow">Puertas de entrada</span>
-            <h2>Dos formas de empezar a trabajar con nosotros</h2>
-          </div>
-          <div className="hooks">
-            <div className="hook-card">
-              <span className="hk-eyebrow">Auditoría gratuita · Captación</span>
-              <h3>El test temporal</h3>
-              <span className="service-name">Auditoría y optimización express</span>
-              <p>
-                Analizamos gratis el anuncio actual de tu inmobiliaria en Idealista o Fotocasa —o el
-                de un piso aún vacío— y te entregamos un informe de una página con lo que le falta
-                para resultar irresistible a un profesor o funcionario.
-              </p>
-              <ul>
-                <li>Falta de espacio de estudio o teletrabajo</li>
-                <li>Necesidad de internet rápido y certificado</li>
-                <li>Fotos que no transmiten la calidez de una estancia de 6 a 9 meses</li>
-              </ul>
-              <CalendlyButton className="btn btn-primary">Pedir mi test temporal</CalendlyButton>
-            </div>
-            <div className="hook-card">
-              <span className="hk-eyebrow">Seguridad jurídica · Confianza</span>
-              <h3>Pack de garantías para perfiles públicos</h3>
-              <span className="service-name">Guía y plantilla</span>
-              <p>
-                Muchos caseros evitan el alquiler temporal porque no conocen bien la Ley de
-                Arrendamientos Urbanos y temen que el inquilino se quede de forma indefinida. Les
-                damos la claridad que les falta.
-              </p>
-              <ul>
-                <li>Guía en lenguaje llano de la LAU aplicada al alquiler de temporada</li>
-                <li>Plantilla de contrato con cláusulas de salida definidas</li>
-                <li>Argumentario para resolver el miedo del propietario en la primera llamada</li>
-              </ul>
-              <CalendlyButton className="btn btn-primary">Solicitar el pack</CalendlyButton>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DiagnosticoSection />
 
-      <section id="precios">
+      <section id="precios" className="bg-sage">
         <div className="wrap">
           <div className="section-head">
-            <span className="eyebrow">Planes para inmobiliarias</span>
-            <h2>Tres formas de crecer, según lo que tu agencia necesita ahora</h2>
+            <span className="eyebrow">Planes</span>
+            <h2>Tres planes, según el momento de tu negocio</h2>
             <p>
-              Cada plan incluye un mantenimiento mensual para que la presencia digital de tu
-              inmobiliaria no se detenga después del lanzamiento.
+              Cada plan incluye un mantenimiento mensual para que tu web, tu chatbot y tus
+              automatizaciones sigan funcionando después del lanzamiento.
             </p>
           </div>
-<div className="tickets">
-            <div className="ticket">
-              <span className="tier">Low ticket</span>
-              <h3>Presencia esencial</h3>
-              <p className="price">
-                250€
-              </p>
-              <p className="price-sub">más 75€/mes de mantenimiento</p>
-              <ul>
-                <li>Optimización de Instagram y Facebook</li>
-                <li>Optimización de anuncios de inmuebles</li>
-                <li>Diseño de contenido para redes</li>
-                <li>Optimización de Google Business</li>
-                <li>Informe mensual de resultados</li>
-              </ul>
-              <CalendlyButton className="btn btn-ghost">Empezar con este plan</CalendlyButton>
-            </div>
-            <div className="ticket featured">
-              <span className="badge">Más elegido</span>
-              <span className="tier">Medium ticket</span>
-              <h3>Captación activa</h3>
-              <p className="price">
-                499€
-              </p>
-              <p className="price-sub">más 150€/mes de mantenimiento</p>
-              <ul>
-                <li>Gestión de redes sociales</li>
-                <li>Creación de reels inmobiliarios</li>
-                <li>Campaña de Meta Ads</li>
-                <li>Optimización de propiedades</li>
-                <li>Seguimiento y análisis de resultados</li>
-                <li>Estrategia mensual de captación</li>
-              </ul>
-              <CalendlyButton className="btn btn-primary">Empezar con este plan</CalendlyButton>
-            </div>
-            <div className="ticket">
-              <span className="tier">High ticket</span>
-              <h3>Crecimiento completo</h3>
-              <p className="price">
-                999€
-              </p>
-              <p className="price-sub">más 300€/mes de mantenimiento</p>
-              <ul>
-                <li>Estrategia completa de captación</li>
-                <li>Contenido premium para propiedades</li>
-                <li>Campañas avanzadas de publicidad</li>
-                <li>SEO local para Google</li>
-                <li>Chatbot inteligente para atender consultas y captar clientes 24/7</li>
-                <li>Automatización del seguimiento de leads</li>
-                <li>Análisis y optimización mensual</li>
-              </ul>
-              <CalendlyButton className="btn btn-ghost">Empezar con este plan</CalendlyButton>
-            </div>
+          <div className="tickets">
+            {PLANS.map((p) => (
+              <div className={`ticket${p.featured ? " featured" : ""}`} key={p.tier}>
+                {p.featured && <span className="badge">Más elegido</span>}
+                <span className="tier">{p.tier}</span>
+                <h3>{p.name}</h3>
+                <p className="price">{p.price}</p>
+                <p className="price-sub">{p.sub}</p>
+                <ul>
+                  {p.items.map((it) => (
+                    <li key={it}>{it}</li>
+                  ))}
+                </ul>
+                <CalendlyButton className={`btn ${p.featured ? "btn-primary" : "btn-ghost"}`}>
+                  Empezar con este plan
+                </CalendlyButton>
+              </div>
+            ))}
+          </div>
+          <p className="plans-note">
+            ¿Necesitas solo una cosa (un logo, un chatbot, una automatización)? También hacemos
+            trabajos sueltos: pide tu presupuesto en una llamada.
+          </p>
+        </div>
+      </section>
+
+      <section id="faq">
+        <div className="wrap faq-grid">
+          <div className="faq-side">
+            <span className="eyebrow">Preguntas frecuentes</span>
+            <h2>Lo que nos preguntan antes de empezar</h2>
+            <p>
+              ¿Tienes otra duda? Pregúntale a nuestro asistente (abajo a la derecha) o resérvanos
+              una llamada.
+            </p>
+            <CalendlyButton className="btn btn-primary">
+              Agendar llamada <ArrowRight size={16} />
+            </CalendlyButton>
+          </div>
+          <div className="accordion">
+            {FAQS.map(([q, a], i) => (
+              <div className={`accordion-item${openFaq === i ? " open" : ""}`} key={q}>
+                <button className="accordion-q" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                  {q}
+                  <span className="plus">+</span>
+                </button>
+                <div className="accordion-a" style={{ maxHeight: openFaq === i ? 400 : 0 }}>
+                  <p>{a}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       <ReviewsSection />
 
-
       <section id="agenda" style={{ paddingBottom: 110 }}>
         <div className="wrap">
           <div className="section-head">
             <span className="eyebrow">Reserva tu cita</span>
-            <h2>Agenda una llamada de 30 minutos</h2>
+            <h2>Agenda una llamada gratuita de 30 minutos</h2>
           </div>
           <div className="booking-wrap">
             <div className="booking-copy">
-              <h2>Hablemos de tu inmobiliaria</h2>
+              <h2>Hablemos de tu negocio</h2>
               <p>
-                Elige el horario que te venga bien y cuéntanos qué tipo de viviendas gestionas.
-                Preparamos la llamada con tu test temporal ya esbozado.
+                Elige el horario que te venga bien y cuéntanos qué necesitas: una web, un chatbot,
+                una automatización, un logo o ayuda con tus redes.
               </p>
               <ul className="steps">
                 <li>
@@ -1255,7 +1024,7 @@ function Index() {
                   <span>2.</span> Confirmas con tu nombre y correo
                 </li>
                 <li>
-                  <span>3.</span> Te llamamos con el análisis ya preparado
+                  <span>3.</span> Te llamamos con ideas concretas para tu negocio
                 </li>
               </ul>
               <CalendlyButton className="btn btn-primary">Indicar fecha y hora</CalendlyButton>
@@ -1286,38 +1055,37 @@ function Index() {
           <div className="footer-grid">
             <div>
               <div className="footer-brand">
-                <img src={`${LOVABLE_CDN}${logoAsset.url}`} alt="Logotipo de Vesta" />
+                <img src={LOGO_URL} alt="Logotipo de Vesta" />
                 <span>Vesta</span>
               </div>
               <p>
-                Agencia de marketing inmobiliario especializada en alquileres temporales para
-                profesores y funcionarios en movilidad.
+                Agencia de marketing digital: páginas web, chatbots con IA, automatizaciones con
+                n8n, logos y redes sociales.
               </p>
             </div>
             <div className="footer-col">
               <h4>Servicios</h4>
-              <a href="#servicios">Captación de inmobiliarias</a>
-              <a href="#servicios">El test temporal</a>
-              <a href="#servicios">Pack de garantías</a>
+              <a href="#webs">Páginas web</a>
+              <a href="#chatbots">Chatbots con IA</a>
+              <a href="#automatizaciones">Automatizaciones n8n</a>
+              <a href="#logos">Logos e identidad</a>
+              <a href="#redes">Redes sociales</a>
             </div>
             <div className="footer-col">
               <h4>Agencia</h4>
-              <a href="#avatar">Inquilino ideal</a>
+              <a href="#demos">Demos</a>
+              <a href="#trabajar">Cómo trabajamos</a>
+              <a href="#diagnostico">Diagnóstico gratis</a>
               <a href="#precios">Precios</a>
-              <a href="#resenas">Reseñas</a>
+              <a href="#faq">Preguntas frecuentes</a>
             </div>
             <div className="footer-col">
               <h4>Contacto</h4>
               <a href={CALENDLY_URL} target="_blank" rel="noopener noreferrer">
                 Agendar llamada
               </a>
-              <a href="mailto:vestamarketinginmobiliario@gmail.com">vestamarketinginmobiliario@gmail.com</a>
-              <a
-                href={INSTAGRAM_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="footer-ig"
-              >
+              <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+              <a href={INSTAGRAM_URL} target="_blank" rel="noopener noreferrer" className="footer-ig">
                 <Instagram size={18} />
                 <span>{INSTAGRAM_HANDLE}</span>
               </a>
