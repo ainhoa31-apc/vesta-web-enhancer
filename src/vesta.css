@@ -828,3 +828,36 @@ footer{background:var(--navy-deep);color:#C9D0BE;padding:64px 0 30px;}
   .dw-title span,.dc-msg,.dw-badge,.df-ok,.db-name,.db-type,.db-swatches span{opacity:1 !important;width:auto !important;transform:none !important;}
   .db-logo circle,.db-logo path{stroke-dashoffset:0 !important;}
 }
+
+/* ---------- AJUSTES VERSIÓN MÓVIL ---------- */
+html,body{overflow-x:clip;}
+.diag-opt{position:relative;}
+@media (max-width: 980px){
+  .diag-result{position:relative;}
+}
+@media (max-width: 560px){
+  section{padding:60px 0;}
+  .section-head{margin-bottom:34px;}
+  .hero{padding:36px 0 48px;}
+  .hero-pill{font-size:12px;}
+  .hv{height:380px;}
+  .hv-chat{width:200px;bottom:70px;padding:12px;}
+  .hv-chat p{font-size:11.5px;}
+  .service{padding:28px 22px;}
+  .ticket{padding:32px 22px;}
+  .ticket .price{font-size:40px;}
+  .diag-result{padding:28px 22px;}
+  .diag-opt{font-size:14px;padding:12px 14px;}
+  .df-node.n3,.df-node.n4,.df-node.n5{left:80%;}
+  .demo figcaption{font-size:13.5px;}
+  .booking-copy{padding:32px 22px;}
+  .calendly-embed{min-height:620px;}
+  .calendly-link-box{padding:18px;}
+  .calendly-link-box a.url{font-size:13px;}
+  .calendly-link-box .btn{width:100%;justify-content:center;}
+  .footer-grid{grid-template-columns:1fr;gap:30px;}
+  .footer-col a{word-break:break-word;}
+  .footer-grid p{max-width:none;}
+  .footer-bottom{flex-direction:column;gap:6px;}
+  .review-card{padding:26px 22px;}
+}
