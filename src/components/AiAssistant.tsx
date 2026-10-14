@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketingautiva/30min";
 const CONTACT_EMAIL = "vestamarketinginmobiliario@gmail.com";
 
 type Msg = { role: "user" | "assistant"; content: string };
