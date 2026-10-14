@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketingautiva/30min";
 
 const SYSTEM_PROMPT = `Eres el asistente virtual de Vesta Marketing Inmobiliario, una agencia de marketing inmobiliario en Almería especializada en ayudar a inmobiliarias a captar inquilinos para alquiler temporal (profesores, funcionarios y personal desplazado en comisión de servicio).
 Respondes SIEMPRE en español, de forma breve (máximo 4 frases), cercana y profesional.
