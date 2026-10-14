@@ -58,7 +58,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const CALENDLY_URL = "https://calendly.com/vestamarketinginmobiliario/30min";
+const CALENDLY_URL = "https://calendly.com/vestamarketingautiva/30min";
 // URL base de Lovable: sirve las imágenes subidas mientras el dominio propio
 // no esté conectado como dominio personalizado (eso requiere plan Pro de Lovable).
 const LOVABLE_CDN = "https://vesta-web-enhancer.lovable.app";
